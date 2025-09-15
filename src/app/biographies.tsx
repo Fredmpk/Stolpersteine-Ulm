@@ -6,7 +6,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 export function Biographies({ bios }: { bios: BIOGRAPHY_QUERYResult }) {
   return (
-    <section className="m-12 mb-24">
+    <section className="m-12 mb">
       <Image
         src="/header_stolpersteine_logo.png"
         alt="Stolpersteine Ulm"
@@ -43,7 +43,7 @@ export function Biographies({ bios }: { bios: BIOGRAPHY_QUERYResult }) {
             value={bio.body || []}
             components={myPortableTextComponents}
           />
-          <div className="clear-both" />
+          <p>Autor*in(nen): {bio.authors}</p>
           <h3 className="mt-6 font-semibold">Quellen</h3>
           <PortableText
             value={bio.sources || []}

@@ -6,8 +6,9 @@ import { getImageDimensions } from "@sanity/asset-utils";
 export const myPortableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
-      const alignment = value.alignment || "center";
-
+      const normalize = (str?: string) =>
+        str?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+      const alignment = normalize(value.alignment) || "center";
       const alignmentClass =
         alignment === "left"
           ? "float-left mr-4 mb-4"
