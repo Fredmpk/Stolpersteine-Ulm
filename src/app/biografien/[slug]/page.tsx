@@ -28,8 +28,8 @@ export default async function Biographies({
 
   return (
     <section className="my-12 mx-2">
-      <div key={bio._id}>
-        {bio.image_stone?.asset && (
+      <div key={bio?._id}>
+        {bio?.image_stone?.asset && (
           <Image
             src={urlFor(bio.image_stone.asset).url()}
             alt={bio.title || ""}
@@ -40,25 +40,25 @@ export default async function Biographies({
           />
         )}
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
-          {bio.title}
+          {bio?.title}
         </h2>
-        <p>{bio.adress}</p>
+        <p>{bio?.adress}</p>
         <PortableText
-          value={bio.body || []}
+          value={bio?.body || []}
           components={myPortableTextComponents}
         />
-        {bio.sources && (
+        {bio?.sources && (
           <>
             <h3 className="text-lg sm:text-xl font-semibold my-3">Quellen</h3>
             <PortableText
-              value={bio.sources || []}
+              value={bio?.sources || []}
               components={myPortableTextComponents}
             />
           </>
         )}
-        {bio.authors && (
+        {bio?.authors && (
           <p className="text-sm sm:text-base font-semibold my-6">
-            Autor*in(nen): {bio.authors}
+            Autor*in(nen): {bio?.authors}
           </p>
         )}
       </div>
