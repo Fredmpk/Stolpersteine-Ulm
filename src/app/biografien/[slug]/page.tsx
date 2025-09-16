@@ -10,14 +10,18 @@ import { notFound } from "next/navigation";
 export default async function Biographies({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  // If sanityFetch returns the document directly:
+  // Await the params Promise in Next.js 15
+  const { slug } = await params;
+
   const result = await sanityFetch({
     query: SINGLE_BIOGRAPHY_QUERY,
-    params: { slug: params.slug },
+    params: { slug },
   });
+
   const bio = result.data as SINGLE_BIOGRAPHY_QUERYResult;
+
   if (!bio) {
     return notFound(); // ✅ show 404 if slug not found
   }
