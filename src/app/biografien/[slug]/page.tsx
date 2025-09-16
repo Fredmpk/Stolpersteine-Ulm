@@ -7,9 +7,11 @@ import { SINGLE_BIOGRAPHY_QUERYResult } from "@/sanity/types";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 import { notFound } from "next/navigation";
 
-type Props = { params: { slug: string } };
-
-export default async function Biographies({ params }: Props) {
+export default async function Biographies({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const { data: bio } = (await sanityFetch({
     query: SINGLE_BIOGRAPHY_QUERY,
     params: { slug: params.slug }, // ✅ pass slug
