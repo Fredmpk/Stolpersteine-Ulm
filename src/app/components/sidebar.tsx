@@ -19,7 +19,7 @@ export function Sidebar() {
   }
 
   const linkClass = (href: string) =>
-    `block px-4 py-2 text-left w-full rounded ${
+    `block pl-4 py-2 text-left w-full rounded ${
       isActiveLink(href)
         ? "bg-[var(--color-sidebar-active)] text-[var(--color-sidebar-text-active)]"
         : "text-[var(--color-sidebar-text)]"
@@ -28,7 +28,7 @@ export function Sidebar() {
   const nestedClass = "pl-6"; // indentation for nested links
 
   return (
-    <aside className="min-w-1/3 flex flex-col p-4">
+    <aside className="min-w-1/3 md:min-w-1/4 flex flex-col pt-4">
       <Link
         href="/eine-buerger-initiative"
         className={linkClass("/eine-buerger-initiative")}
