@@ -5,6 +5,9 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { draftMode } from "next/headers";
 import { SanityLive } from "@/sanity/lib/live";
+import { Sidebar } from "./components/sidebar";
+import { Header } from "./components/header";
+import { Footer } from "./components/footer";
 
 export const metadata: Metadata = {
   title: "Stolpersteine",
@@ -25,7 +28,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={tinos.className}>
-        {children}
+        <Header />
+        <div className="flex flex-row">
+          <Sidebar />
+          <main>{children}</main>
+        </div>
+        <Footer />
+
         <SanityLive />
         {(await draftMode()).isEnabled && (
           <>

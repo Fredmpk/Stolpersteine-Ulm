@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+@theme {
+  --color-sidebar-active: #d4e3e6;
+  --color-sidebar-text: #929291;
+  --color-brown-hero: #86754f;
+}

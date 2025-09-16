@@ -358,6 +358,24 @@ export type Goals = {
   }>;
 };
 
+export type Hero = {
+  _id: string;
+  _type: "hero";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote?: string;
+  quoteAuthor?: string;
+  nextStone?: {
+    title?: string;
+    link?: string;
+  };
+  nextMeeting?: {
+    title?: string;
+    link?: string;
+  };
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -476,7 +494,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_QUERY
@@ -553,11 +571,27 @@ export type BIOGRAPHY_QUERYResult = Array<{
   }> | null;
   authors: string | null;
 }>;
+// Variable: HERO_QUERY
+// Query: *[_type == "hero"][0]{      _id,    quote,    quoteAuthor,    nextStone{      title,      link    },    nextMeeting{      title,      link    } }
+export type HERO_QUERYResult = {
+  _id: string;
+  quote: string | null;
+  quoteAuthor: string | null;
+  nextStone: {
+    title: string | null;
+    link: string | null;
+  } | null;
+  nextMeeting: {
+    title: string | null;
+    link: string | null;
+  } | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"biographies\"]{\n  _id,\n  title,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": BIOGRAPHY_QUERYResult;
+    "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
   }
 }

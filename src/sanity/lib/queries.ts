@@ -11,3 +11,17 @@ export const BIOGRAPHY_QUERY = defineQuery(`*[_type == "biographies"]{
   body,
   authors,
 }`);
+
+export const HERO_QUERY = defineQuery(`*[_type == "hero"][0]{  
+    _id,
+    quote,
+    quoteAuthor,
+    nextStone{
+      title,
+      link
+    },
+    nextMeeting{
+      title,
+      link
+    } 
+}`);
