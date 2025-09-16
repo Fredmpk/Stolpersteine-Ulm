@@ -42,6 +42,7 @@ export default async function Biographies({
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio.title}
         </h2>
+        <p>{bio.adress}</p>
         <PortableText
           value={bio.body || []}
           components={myPortableTextComponents}
