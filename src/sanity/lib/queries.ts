@@ -40,3 +40,8 @@ export const HERO_QUERY = defineQuery(`*[_type == "hero"][0]{
       link
     } 
 }`);
+
+export const GOALS_QUERY = defineQuery(`*[_type == "goals"][0]{
+    _id,
+    textGoal
+  }`);

@@ -60,6 +60,22 @@ export const myPortableTextComponents: PortableTextComponents = {
       );
     },
   },
+  marks: {
+    link: ({ value, children }) => {
+      // value.href comes from the Sanity annotation
+      const url = value?.href || "#";
+      return (
+        <a
+          href={url}
+          target={value?.blank ? "_blank" : "_self"}
+          rel={value?.blank ? "noopener noreferrer" : undefined}
+          className="text-blue-900 hover:underline hover:text-blue-700"
+        >
+          {children}
+        </a>
+      );
+    },
+  },
   block: {
     h1: ({ children }) => (
       <h1 className="text-2xl sm:text-3xl font-bold my-4">{children}</h1>
