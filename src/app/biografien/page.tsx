@@ -1,5 +1,4 @@
 // app/biografien/page.tsx
-import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BIOGRAPHY_LIST_QUERY } from "@/sanity/lib/queries";
 import { BIOGRAPHY_LIST_QUERYResult } from "@/sanity/types";

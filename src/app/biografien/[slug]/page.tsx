@@ -12,11 +12,12 @@ export default async function Biographies({
 }: {
   params: { slug: string };
 }) {
-  const { data: bio } = (await sanityFetch({
+  // If sanityFetch returns the document directly:
+  const result = await sanityFetch({
     query: SINGLE_BIOGRAPHY_QUERY,
-    params: { slug: params.slug }, // ✅ pass slug
-  })) as { data: SINGLE_BIOGRAPHY_QUERYResult };
-
+    params: { slug: params.slug },
+  });
+  const bio = result.data as SINGLE_BIOGRAPHY_QUERYResult;
   if (!bio) {
     return notFound(); // ✅ show 404 if slug not found
   }
