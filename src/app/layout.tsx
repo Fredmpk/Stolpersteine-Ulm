@@ -7,6 +7,7 @@ import { draftMode } from "next/headers";
 import { SanityLive } from "@/sanity/lib/live";
 import { Sidebar } from "./components/sidebar";
 import { Header } from "./components/header";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Stolpersteine",
@@ -26,14 +27,24 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${tinos.className} w-5/6 mx-auto`}>
-        <div className=" py-4">
+      <body
+        className={`${tinos.className} w-5/6 mx-auto min-h-screen flex flex-col`}
+      >
+        <div className=" pt-4">
           <Header />
         </div>
         <div className="flex flex-row">
           <Sidebar />
           <main>{children}</main>
         </div>
+        <footer className="relative w-full h-8 sm:h-12 md:h-14 lg:h-16 xl:h-20 mt-auto">
+          <Image
+            src="/footer_stolpersteine.png"
+            alt="Footer"
+            fill
+            className="object-contain object-center"
+          />
+        </footer>
         <SanityLive />
         {(await draftMode()).isEnabled && (
           <>
