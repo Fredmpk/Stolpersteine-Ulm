@@ -19,9 +19,9 @@ export const myPortableTextComponents: PortableTextComponents = {
       const alignment = normalize(value.alignment) || "center";
       const alignmentClass =
         alignment === "left"
-          ? "float-left mr-4 mb-4"
+          ? "float-left mr-6 mt-2 mb-4"
           : alignment === "right"
-            ? "float-right ml-4 mb-4"
+            ? "float-right ml-6 mt-2 mb-4"
             : "my-4 mx-auto w-full";
       //to align the images as configured in the studio
 
@@ -48,7 +48,7 @@ export const myPortableTextComponents: PortableTextComponents = {
               alt={value.alt || ""}
               width={width || 300}
               height={height || 200}
-              className="rounded-lg shadow-md m-2"
+              className="rounded-lg shadow-md"
             />
           )}
           {value.alt && (
