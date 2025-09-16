@@ -64,7 +64,8 @@ export type Biographies = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  address?: string;
+  slug?: Slug;
+  adress?: string;
   latitude?: number;
   longitude?: number;
   image_stone?: {
@@ -497,12 +498,13 @@ export type SanityAssetSourceData = {
 export type AllSanitySchemaTypes = Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
-// Variable: BIOGRAPHY_QUERY
-// Query: *[_type == "biographies"]{  _id,  title,  adress,  latitude,  longitude,  image_stone,  sources,  body,  authors,}
-export type BIOGRAPHY_QUERYResult = Array<{
+// Variable: BIOGRAPHY_LIST_QUERY
+// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    image_stone,    sources,    body,    authors,  }
+export type BIOGRAPHY_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
-  adress: null;
+  slug: string | null;
+  adress: string | null;
   latitude: number | null;
   longitude: number | null;
   image_stone: {
@@ -571,6 +573,81 @@ export type BIOGRAPHY_QUERYResult = Array<{
   }> | null;
   authors: string | null;
 }>;
+// Variable: SINGLE_BIOGRAPHY_QUERY
+// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  image_stone,  sources,  body,  authors,}
+export type SINGLE_BIOGRAPHY_QUERYResult = {
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  adress: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  image_stone: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+  } | null;
+  sources: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "center" | "left" | "right";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  authors: string | null;
+} | null;
 // Variable: HERO_QUERY
 // Query: *[_type == "hero"][0]{      _id,    quote,    quoteAuthor,    nextStone{      title,      link    },    nextMeeting{      title,      link    } }
 export type HERO_QUERYResult = {
@@ -591,7 +668,8 @@ export type HERO_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"biographies\"]{\n  _id,\n  title,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": BIOGRAPHY_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    image_stone,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
+    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
   }
 }

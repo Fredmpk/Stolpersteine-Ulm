@@ -1,46 +1,52 @@
-import { PortableText } from "next-sanity";
-import { BIOGRAPHY_QUERYResult } from "@/sanity/types";
-import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
-import { myPortableTextComponents } from "../components/PortableTextComponents";
+// app/biografien/page.tsx
+import Link from "next/link";
 import { sanityFetch } from "@/sanity/lib/live";
-import { BIOGRAPHY_QUERY } from "@/sanity/lib/queries";
+import { BIOGRAPHY_LIST_QUERY } from "@/sanity/lib/queries";
+import { BIOGRAPHY_LIST_QUERYResult } from "@/sanity/types";
 
-export default async function Biographies() {
-  const { data: bios } = (await sanityFetch({ query: BIOGRAPHY_QUERY })) as {
-    data: BIOGRAPHY_QUERYResult;
+export default async function BiografienPage() {
+  const { data: bios } = (await sanityFetch({
+    query: BIOGRAPHY_LIST_QUERY,
+  })) as {
+    data: BIOGRAPHY_LIST_QUERYResult;
   };
+  if (!bios || bios.length === 0) {
+    return (
+      <main>
+        <h1>Biografien</h1>
+        <p>Fehler: Keine Biografien gefunden.</p>
+      </main>
+    );
+  }
+
   return (
-    <section className="my-12 mx-2">
-      {bios?.map((bio) => (
-        <div key={bio._id}>
-          {bio.image_stone?.asset && (
-            <Image
-              src={urlFor(bio.image_stone.asset).url()}
-              alt={bio.title || ""}
-              className="max-w-1/3 sm:max-w-1/4 rounded-2xl float-right mb-8"
-              width={100}
-              height={100}
-              layout="responsive"
-            />
-          )}
-          <h2 className="text-2xl sm:text-4xl  text-[#c5d3d6] my-6">
-            {bio.title}
-          </h2>
-          <PortableText
-            value={bio.body || []}
-            components={myPortableTextComponents}
-          />
-          <h3 className="text-lg sm:text-xl font-semibold my-3">Quellen</h3>
-          <PortableText
-            value={bio.sources || []}
-            components={myPortableTextComponents}
-          />
-          <p className="text-sm sm:text-base font-semibold my-6">
-            Autor*in(nen): {bio.authors}
-          </p>
-        </div>
-      ))}
-    </section>
+    <main>
+      <h1 className="text-2xl sm:text-3xl  text-[var(--color-heading)] my-6">
+        Biografien der Personen, für die in Ulm Stolpersteine verlegt worden
+        sind
+      </h1>
+      <ul>
+        {bios
+          .filter((b) => !!b.slug)
+          .map((b) => (
+            <li
+              key={b._id}
+              className="flex justify-between items-center lg:w-3/4"
+            >
+              <div>
+                <a href={`/biografien/${b.slug!}`} className="flex flex-row">
+                  <p className="text-blue-800 hover:underline hover:text-blue-900">
+                    {b.title ?? "Untitled"}
+                  </p>
+                  <p className="ml-2 text-blue-800 hover:underline hover:text-blue-900">
+                    →
+                  </p>
+                </a>
+              </div>
+              <p className="text-sm">{b.adress}</p>
+            </li>
+          ))}
+      </ul>
+    </main>
   );
 }
