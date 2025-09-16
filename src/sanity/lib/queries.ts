@@ -51,3 +51,11 @@ export const DONATIONS_QUERY = defineQuery(`*[_type == "donations"][0]{
     title,
     text,
   }`);
+
+export const CLEAN_GODPARENTS_QUERY =
+  defineQuery(`*[_type == "cleangodparents"][0]{
+    _id,
+    title,
+    description,
+    listcleaners, 
+  }`);

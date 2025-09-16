@@ -61,9 +61,9 @@ export function Sidebar() {
         className={openDonations ? `flex flex-col ${nestedClass}` : "hidden"}
       >
         <Link href="/spenden" className={linkClass("/spenden")}>
-          Spenden & Putzpat*innen
+          Spenden
         </Link>
-        <Link href="/putzpatinnen" className={linkClass("/putzpatinnen")}>
+        <Link href="/putzpat*innen" className={linkClass("/putzpat*innen")}>
           Putzpat*innen
         </Link>
       </div>
