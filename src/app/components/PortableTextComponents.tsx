@@ -6,8 +6,16 @@ import { getImageDimensions } from "@sanity/asset-utils";
 export const myPortableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
+      if (!value || !value.asset?._ref) {
+        console.warn("Skipping invalid image", value);
+        return null;
+      }
+      //to handle invalid images/prevent errors when adding images in the studio
+
       const normalize = (str?: string) =>
         str?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+      //so in draft mode the correct name is passed for rendering
+
       const alignment = normalize(value.alignment) || "center";
       const alignmentClass =
         alignment === "left"
@@ -15,12 +23,14 @@ export const myPortableTextComponents: PortableTextComponents = {
           : alignment === "right"
             ? "float-right ml-4 mb-4"
             : "my-4 mx-auto w-full";
+      //to align the images as configured in the studio
 
       const { width, height } = getImageDimensions(value);
       const orientation =
         width > height ? "landscape" : width < height ? "portrait" : "square";
 
-      // Example: tweak sizing based on orientation (adjust as you like)
+      // to align the image sizes
+
       const sizeClass =
         orientation === "portrait"
           ? "w-1/2 sm:w-1/3"
