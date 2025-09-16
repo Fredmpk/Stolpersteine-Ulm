@@ -688,6 +688,30 @@ export type GOALS_QUERYResult = {
     _key: string;
   }> | null;
 } | null;
+// Variable: DONATIONS_QUERY
+// Query: *[_type == "donations"][0]{    _id,    title,    text,  }
+export type DONATIONS_QUERYResult = {
+  _id: string;
+  title: string | null;
+  text: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -697,5 +721,6 @@ declare module "@sanity/client" {
     "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;
+    "*[_type == \"donations\"][0]{\n    _id,\n    title,\n    text,\n  }": DONATIONS_QUERYResult;
   }
 }

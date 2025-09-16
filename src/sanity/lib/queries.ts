@@ -45,3 +45,9 @@ export const GOALS_QUERY = defineQuery(`*[_type == "goals"][0]{
     _id,
     textGoal
   }`);
+
+export const DONATIONS_QUERY = defineQuery(`*[_type == "donations"][0]{
+    _id,
+    title,
+    text,
+  }`);
