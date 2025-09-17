@@ -10,6 +10,7 @@ import { Header } from "./components/header";
 import Image from "next/image";
 import { BACKGROUNDS_QUERY } from "@/sanity/lib/queries";
 import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
+import { BurgerMenu } from "./components/burger-menu";
 
 export const metadata: Metadata = {
   title: "Stolpersteine",
@@ -42,7 +43,10 @@ export default async function RootLayout({
           <div className=" pt-4">
             <Header />
           </div>
-          <div className="flex flex-row">
+          <div className="sm:hidden">
+            <BurgerMenu backgrounds={backgrounds} />
+          </div>
+          <div className="flex-row flex">
             <Sidebar backgrounds={backgrounds} />
             <main>{children}</main>
           </div>
