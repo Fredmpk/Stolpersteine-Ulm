@@ -12,7 +12,6 @@ export default async function Biographies({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // Await the params Promise in Next.js 15
   const { slug } = await params;
 
   const result = await sanityFetch({

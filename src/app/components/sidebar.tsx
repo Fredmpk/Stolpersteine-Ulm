@@ -33,7 +33,7 @@ export function Sidebar({
   const nestedClass = "pl-6"; // indentation for nested links
 
   return (
-    <aside className="min-w-1/3 md:min-w-1/4 flex flex-col pt-4">
+    <aside className="min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden sm:flex">
       <Link
         href="/eine-buerger-initiative"
         className={linkClass("/eine-buerger-initiative")}

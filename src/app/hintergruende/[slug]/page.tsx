@@ -7,7 +7,7 @@ import { myPortableTextComponents } from "@/app/components/PortableTextComponent
 export default async function BackgroundPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
 
