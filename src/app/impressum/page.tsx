@@ -11,8 +11,6 @@ export default function Impressum() {
         <br />
         89079 Ulm
         <br />
-        Tel.: 0178 2119589
-        <br />
         stolpersteininitiative@dzok-ulm.de
       </p>
     </div>

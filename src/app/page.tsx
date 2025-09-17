@@ -9,13 +9,18 @@ export default async function Home() {
   };
   return (
     <main>
-      <p className="pl-2 pr-6 py-8 text-lg lg:text-xl">
+      <p className="pl-2 pr-6 py-8 text-base sm:text-lg lg:text-xl">
         {hero?.quote ||
           "»Auschwitz war der Ziel- und Endpunkt, aber in den Wohnungen und Häusern begann das Unfassbare, das Grauen«"}
       </p>
-      <p className="pl-6 lg:text-lg">{hero?.quoteAuthor || "Gunter Demnig"}</p>
-      <p>____________________________________</p>
-      <div className="flex flex-col text-[var(--color-brown-hero)] p-10 lg:text-lg">
+      <p className="pl-6 text-base sm:text-lg lg:text-xl">
+        {hero?.quoteAuthor || "Gunter Demnig"}
+      </p>
+      <p className="md:hidden">____________________________________</p>
+      <p className="hidden md:block">
+        ______________________________________________________________
+      </p>
+      <div className="flex flex-col text-[var(--color-brown-hero)] pl-6 pt-10 sm:p-10 lg:text-lg">
         <Link href={hero?.nextStone?.link || ""}>
           Nächste Verlegung: {hero?.nextStone?.title || ""}
         </Link>
