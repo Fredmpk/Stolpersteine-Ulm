@@ -13,6 +13,49 @@
  */
 
 // Source: schema.json
+export type Backgrounds = {
+  _id: string;
+  _type: "backgrounds";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  text?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "left" | "center" | "right";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }>;
+};
+
 export type Legal = {
   _id: string;
   _type: "legal";
@@ -496,7 +539,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
@@ -649,6 +692,86 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   }> | null;
   authors: string | null;
 } | null;
+// Variable: BACKGROUNDS_QUERY
+// Query: *[_type == "backgrounds" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    text  }
+export type BACKGROUNDS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  text: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "center" | "left" | "right";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+}>;
+// Variable: SINGLE_BACKGROUND_QUERY
+// Query: *[_type == "backgrounds" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  text,}
+export type SINGLE_BACKGROUND_QUERYResult = {
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  text: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "center" | "left" | "right";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+} | null;
 // Variable: HERO_QUERY
 // Query: *[_type == "hero"][0]{      _id,    quote,    quoteAuthor,    nextStone{      title,      link    },    nextMeeting{      title,      link    } }
 export type HERO_QUERYResult = {
@@ -713,7 +836,7 @@ export type DONATIONS_QUERYResult = {
   }> | null;
 } | null;
 // Variable: CLEAN_GODPARENTS_QUERY
-// Query: *[_type == "cleangodparents"][0]{    _id,    title,    description,    listcleaners,  }
+// Query: *[_type == "cleangodparents"][0]{    _id,    title,    description,    listcleaners,   }
 export type CLEAN_GODPARENTS_QUERYResult = {
   _id: string;
   title: string | null;
@@ -744,9 +867,11 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    image_stone,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
     "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
+    "*[_type == \"backgrounds\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
+    "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;
     "*[_type == \"donations\"][0]{\n    _id,\n    title,\n    text,\n  }": DONATIONS_QUERYResult;
-    "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners,\n  }": CLEAN_GODPARENTS_QUERYResult;
+    "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners, \n  }": CLEAN_GODPARENTS_QUERYResult;
   }
 }

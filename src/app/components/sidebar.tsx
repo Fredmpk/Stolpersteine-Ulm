@@ -1,9 +1,14 @@
 "use client";
+import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export function Sidebar() {
+export function Sidebar({
+  backgrounds,
+}: {
+  backgrounds: BACKGROUNDS_QUERYResult;
+}) {
   const pathname = usePathname();
   const segment = pathname.split("/")[1];
 
@@ -99,15 +104,15 @@ export function Sidebar() {
             openBackgrounds ? `flex flex-col ${nestedClass} pl-6` : "hidden"
           }
         >
-          <Link
-            href="/verfolgung-der-juden-in-ulm"
-            className={linkClass("/verfolgung-der-juden-in-ulm")}
-          >
-            Verfolgung der Juden in Ulm
-          </Link>
-          <Link href="/aktion-t4" className={linkClass("/aktion-t4")}>
-            Aktion T4 - Krankenmorde
-          </Link>
+          {backgrounds.map((background) => (
+            <Link
+              key={background._id}
+              href={`/hintergruende/${background.slug}`}
+              className={linkClass(`/hintergruende/${background.slug}`)}
+            >
+              {background.title}
+            </Link>
+          ))}
         </div>
       </div>
 

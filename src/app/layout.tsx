@@ -4,10 +4,12 @@ import { Tinos } from "next/font/google";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { draftMode } from "next/headers";
-import { SanityLive } from "@/sanity/lib/live";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 import { Sidebar } from "./components/sidebar";
 import { Header } from "./components/header";
 import Image from "next/image";
+import { BACKGROUNDS_QUERY } from "@/sanity/lib/queries";
+import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 
 export const metadata: Metadata = {
   title: "Stolpersteine",
@@ -25,34 +27,42 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${tinos.className} w-5/6 mx-auto min-h-screen flex flex-col`}
-      >
-        <div className=" pt-4">
-          <Header />
-        </div>
-        <div className="flex flex-row">
-          <Sidebar />
-          <main>{children}</main>
-        </div>
-        <footer className="relative w-full h-8 sm:h-12 md:h-14 lg:h-16 xl:h-20 mt-auto">
-          <Image
-            src="/footer_stolpersteine.png"
-            alt="Footer"
-            fill
-            className="object-contain object-center"
-          />
-        </footer>
-        <SanityLive />
-        {(await draftMode()).isEnabled && (
-          <>
-            <VisualEditing />
-            <DisableDraftMode />
-          </>
-        )}
-      </body>
-    </html>
-  );
+  const { data: backgrounds } = (await sanityFetch({
+    query: BACKGROUNDS_QUERY,
+  })) as {
+    data: BACKGROUNDS_QUERYResult;
+  };
+
+  {
+    return (
+      <html lang="en">
+        <body
+          className={`${tinos.className} w-5/6 mx-auto min-h-screen flex flex-col`}
+        >
+          <div className=" pt-4">
+            <Header />
+          </div>
+          <div className="flex flex-row">
+            <Sidebar backgrounds={backgrounds} />
+            <main>{children}</main>
+          </div>
+          <footer className="relative w-full h-8 sm:h-12 md:h-14 lg:h-16 xl:h-20 mt-auto">
+            <Image
+              src="/footer_stolpersteine.png"
+              alt="Footer"
+              fill
+              className="object-contain object-center"
+            />
+          </footer>
+          <SanityLive />
+          {(await draftMode()).isEnabled && (
+            <>
+              <VisualEditing />
+              <DisableDraftMode />
+            </>
+          )}
+        </body>
+      </html>
+    );
+  }
 }

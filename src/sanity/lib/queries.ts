@@ -13,6 +13,7 @@ export const BIOGRAPHY_LIST_QUERY =
     body,
     authors,
   }`);
+
 export const SINGLE_BIOGRAPHY_QUERY =
   defineQuery(`*[_type == "biographies" && slug.current == $slug][0]{
   _id,
@@ -27,6 +28,21 @@ export const SINGLE_BIOGRAPHY_QUERY =
   authors,
 }`);
 
+export const BACKGROUNDS_QUERY =
+  defineQuery(`*[_type == "backgrounds" && defined(slug.current)] | order(_createdAt asc){
+    _id,
+    title,
+    "slug": slug.current,
+    text
+  }`);
+
+export const SINGLE_BACKGROUND_QUERY =
+  defineQuery(`*[_type == "backgrounds" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  text,
+}`);
 export const HERO_QUERY = defineQuery(`*[_type == "hero"][0]{  
     _id,
     quote,
