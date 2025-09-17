@@ -32,7 +32,7 @@ export function BurgerMenu({
           />
 
           {/* Sliding menu panel */}
-          <nav className="fixed top-2 right-2 w-[60%] max-w-xs rounded-lg bg-white shadow-lg z-50 p-4 flex flex-col overflow-y-auto opacity-95 pt-20">
+          <nav className="fixed top-2 right-2 w-[60%] max-w-xs rounded-lg bg-white shadow-lg z-50 p-4 flex flex-col overflow-y-auto opacity-95 pt-20 gap-2">
             <Link
               href="/eine-buerger-initiative"
               onClick={() => setOpen(false)}
@@ -40,11 +40,9 @@ export function BurgerMenu({
               Ziele der Initiative
             </Link>
 
-            <details className="mb-2">
-              <summary className="px-4 py-2 cursor-pointer text-[var(--color-sidebar-text)]">
-                Termine & Nachrichten
-              </summary>
-              <div className={`flex flex-col ${nestedClass}`}>
+            <details>
+              <summary className=" text-black">Termine & Nachrichten</summary>
+              <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/termine" onClick={() => setOpen(false)}>
                   Termine
                 </Link>
@@ -54,11 +52,9 @@ export function BurgerMenu({
               </div>
             </details>
 
-            <details className="mb-2">
-              <summary className="px-4 py-2 cursor-pointer text-[var(--color-sidebar-text)]">
-                Spenden & Putzpat*innen
-              </summary>
-              <div className={`flex flex-col ${nestedClass}`}>
+            <details>
+              <summary className="text-black">Spenden & Putzpat*innen</summary>
+              <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/spenden" onClick={() => setOpen(false)}>
                   Spenden
                 </Link>
@@ -72,11 +68,11 @@ export function BurgerMenu({
               Bisherige Verlegungen
             </Link>
 
-            <details className="mb-2">
-              <summary className="px-4 py-2 cursor-pointer text-[var(--color-sidebar-text)]">
+            <details>
+              <summary className="text-black">
                 Biografien, Karte & Hintergründe
               </summary>
-              <div className={`flex flex-col ${nestedClass}`}>
+              <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/biografien" onClick={() => setOpen(false)}>
                   Biografien
                 </Link>
@@ -84,11 +80,9 @@ export function BurgerMenu({
                   Karte
                 </Link>
 
-                <details className="mb-2">
-                  <summary className="px-4 py-2 cursor-pointer text-[var(--color-sidebar-text)]">
-                    Hintergründe
-                  </summary>
-                  <div className={`flex flex-col ${nestedClass}`}>
+                <details>
+                  <summary className="text-black">Hintergründe</summary>
+                  <div className={`flex flex-col gap-2 ${nestedClass}`}>
                     {backgrounds.map((background) => (
                       <Link
                         key={background._id}
@@ -106,16 +100,16 @@ export function BurgerMenu({
             <Link
               href="https://dzok-ulm.de/"
               target="_blank"
-              className="px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)]"
+              className="text-left text-black"
             >
               DZOK
             </Link>
 
-            <details className="mb-2">
-              <summary className="px-4 py-2 cursor-pointer text-[var(--color-sidebar-text)]">
+            <details>
+              <summary className="text-black ">
                 Kontakt, Impressum & Datenschutz
               </summary>
-              <div className={`flex flex-col ${nestedClass}`}>
+              <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/kontakt" onClick={() => setOpen(false)}>
                   Kontakt
                 </Link>
