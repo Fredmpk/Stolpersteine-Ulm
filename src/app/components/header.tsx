@@ -9,7 +9,7 @@ export function Header() {
           alt="Stolpersteine Ulm"
           width={100}
           height={100}
-          className="h-auto w-full"
+          className="h-auto w-full mb-2"
         />
       </div>
       <div className="mx-auto pt-2 w-7/8 sm:w-full">

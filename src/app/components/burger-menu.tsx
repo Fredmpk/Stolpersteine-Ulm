@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 import { Menu, X } from "lucide-react";
 
@@ -33,7 +32,7 @@ export function BurgerMenu({
           />
 
           {/* Sliding menu panel */}
-          <nav className="fixed top-2 right-2 w-[60%] max-w-xs rounded-lg bg-white shadow-lg z-50 p-4 flex flex-col overflow-y-auto opacity-95">
+          <nav className="fixed top-2 right-2 w-[60%] max-w-xs rounded-lg bg-white shadow-lg z-50 p-4 flex flex-col overflow-y-auto opacity-95 pt-20">
             <Link
               href="/eine-buerger-initiative"
               onClick={() => setOpen(false)}
