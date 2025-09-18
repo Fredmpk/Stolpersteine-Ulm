@@ -75,3 +75,53 @@ export const CLEAN_GODPARENTS_QUERY =
     description,
     listcleaners, 
   }`);
+
+export const ALL_EVENTS_QUERY = defineQuery(`
+  *[_type == "dates"] | order(date asc){
+    _id,
+    title,
+    date,
+    location,
+    description,
+    "flyer": flyer.asset->url
+  }
+  `);
+
+// Events for a given year
+export const EVENTS_BY_YEAR_QUERY = defineQuery(`
+    *[_type == "dates" 
+      && dateTime(date) >= dateTime(concat($year, "-01-01T00:00:00Z")) 
+      && dateTime(date) < dateTime(concat(string($year + 1), "-01-01T00:00:00Z"))
+    ]|order(date asc){
+      _id, title, date, location, description, "flyer": flyer.asset->url
+    }
+    `);
+
+// Single event by ID
+export const EVENT_BY_ID_QUERY = defineQuery(`
+    *[_type == "dates" && _id == $id][0]{
+      _id, title, date, location, description, "flyer": flyer.asset->url
+    }
+    `);
+
+// Unique list of years with events
+
+export const EVENT_YEARS_QUERY = defineQuery(`
+  array::unique(
+    *[_type == "dates" && defined(date)]{
+      "year": dateTime(date).year
+    }.year
+  ) | order(@ desc)
+`);
+
+export const FUTURE_EVENTS_QUERY = defineQuery(`
+        *[_type == "dates" && dateTime(date) > dateTime(now())] 
+        | order(date asc){
+          _id,
+          title,
+          date,
+          location,
+          description,
+           "flyer": flyer.asset->url,
+        }
+        `);

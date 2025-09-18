@@ -374,6 +374,16 @@ export type Dates = {
     _type: "block";
     _key: string;
   }>;
+  flyer?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
 };
 
 export type Goals = {
@@ -693,7 +703,7 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   authors: string | null;
 } | null;
 // Variable: BACKGROUNDS_QUERY
-// Query: *[_type == "backgrounds" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    text  }
+// Query: *[_type == "backgrounds" && defined(slug.current)] | order(_createdAt asc){    _id,    title,    "slug": slug.current,    text  }
 export type BACKGROUNDS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -860,6 +870,90 @@ export type CLEAN_GODPARENTS_QUERYResult = {
   }> | null;
   listcleaners: string | null;
 } | null;
+// Variable: ALL_EVENTS_QUERY
+// Query: *[_type == "dates"] | order(date asc){    _id,    title,    date,    location,    description,    "flyer": flyer.asset->url  }
+export type ALL_EVENTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyer: string | null;
+}>;
+// Variable: EVENT_BY_ID_QUERY
+// Query: *[_type == "dates" && _id == $id][0]{      _id, title, date, location, description, "flyer": flyer.asset->url    }
+export type EVENT_BY_ID_QUERYResult = {
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyer: string | null;
+} | null;
+// Variable: EVENT_YEARS_QUERY
+// Query: array::unique(    *[_type == "dates" && defined(date)]{      "year": dateTime(date).year    }.year  ) | order(@ desc)
+export type EVENT_YEARS_QUERYResult = Array<null>;
+// Variable: FUTURE_EVENTS_QUERY
+// Query: *[_type == "dates" && dateTime(date) > dateTime(now())]         | order(date asc){          _id,          title,          date,          location,          description,           "flyer": flyer.asset->url,        }
+export type FUTURE_EVENTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyer: string | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -867,11 +961,15 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    image_stone,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
     "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
-    "*[_type == \"backgrounds\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
+    "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
     "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;
     "*[_type == \"donations\"][0]{\n    _id,\n    title,\n    text,\n  }": DONATIONS_QUERYResult;
     "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners, \n  }": CLEAN_GODPARENTS_QUERYResult;
+    "\n  *[_type == \"dates\"] | order(date asc){\n    _id,\n    title,\n    date,\n    location,\n    description,\n    \"flyer\": flyer.asset->url\n  }\n  ": ALL_EVENTS_QUERYResult;
+    "\n    *[_type == \"dates\" && _id == $id][0]{\n      _id, title, date, location, description, \"flyer\": flyer.asset->url\n    }\n    ": EVENT_BY_ID_QUERYResult;
+    "\n  array::unique(\n    *[_type == \"dates\" && defined(date)]{\n      \"year\": dateTime(date).year\n    }.year\n  ) | order(@ desc)\n": EVENT_YEARS_QUERYResult;
+    "\n        *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n        | order(date asc){\n          _id,\n          title,\n          date,\n          location,\n          description,\n           \"flyer\": flyer.asset->url,\n        }\n        ": FUTURE_EVENTS_QUERYResult;
   }
 }
