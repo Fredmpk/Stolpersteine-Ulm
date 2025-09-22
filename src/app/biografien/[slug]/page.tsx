@@ -28,16 +28,22 @@ export default async function Biographies({
   return (
     <section className="my-12 mx-2">
       <div key={bio?._id}>
-        {bio?.image_stone?.asset && (
-          <Image
-            src={urlFor(bio.image_stone.asset).url()}
-            alt={bio.title || ""}
-            className="max-w-1/3 sm:max-w-1/4 rounded-2xl float-right ml-8 mb-8"
-            width={400}
-            height={400}
-            layout="responsive"
-          />
-        )}
+        <div className="flex flex-wrap gap-2 justify-center">
+          {bio?.images_stones?.map((image) => {
+            if (!image?.asset) return null; // skip if no asset
+            return (
+              <Image
+                key={image._key}
+                src={urlFor(image.asset).url()}
+                alt={bio.title || ""}
+                className="w-1/4 md:w-1/5 lg:w-1/6 rounded-2xl"
+                width={400}
+                height={400}
+              />
+            );
+          })}
+        </div>
+
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio?.title}
         </h2>

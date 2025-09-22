@@ -111,7 +111,7 @@ export type Biographies = {
   adress?: string;
   latitude?: number;
   longitude?: number;
-  image_stone?: {
+  images_stones?: Array<{
     asset?: {
       _ref: string;
       _type: "reference";
@@ -123,7 +123,8 @@ export type Biographies = {
     crop?: SanityImageCrop;
     caption?: string;
     _type: "image";
-  };
+    _key: string;
+  }>;
   body?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -152,6 +153,7 @@ export type Biographies = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alignment?: "left" | "center" | "right";
+    size?: "small" | "normal" | "large";
     subtitle?: string;
     alt?: string;
     _type: "image";
@@ -374,6 +376,16 @@ export type Dates = {
     _type: "block";
     _key: string;
   }>;
+  flyer?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
 };
 
 export type Goals = {
@@ -543,7 +555,7 @@ export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings |
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
-// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    image_stone,    sources,    body,    authors,  }
+// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    images_stones,    sources,    body,    authors,  }
 export type BIOGRAPHY_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -551,7 +563,7 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
   adress: string | null;
   latitude: number | null;
   longitude: number | null;
-  image_stone: {
+  images_stones: Array<{
     asset?: {
       _ref: string;
       _type: "reference";
@@ -563,7 +575,8 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
     crop?: SanityImageCrop;
     caption?: string;
     _type: "image";
-  } | null;
+    _key: string;
+  }> | null;
   sources: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -610,6 +623,7 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alignment?: "center" | "left" | "right";
+    size?: "large" | "normal" | "small";
     subtitle?: string;
     alt?: string;
     _type: "image";
@@ -618,7 +632,7 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
   authors: string | null;
 }>;
 // Variable: SINGLE_BIOGRAPHY_QUERY
-// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  image_stone,  sources,  body,  authors,}
+// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  images_stones,  sources,  body,  authors,}
 export type SINGLE_BIOGRAPHY_QUERYResult = {
   _id: string;
   title: string | null;
@@ -626,7 +640,7 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   adress: string | null;
   latitude: number | null;
   longitude: number | null;
-  image_stone: {
+  images_stones: Array<{
     asset?: {
       _ref: string;
       _type: "reference";
@@ -638,7 +652,8 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
     crop?: SanityImageCrop;
     caption?: string;
     _type: "image";
-  } | null;
+    _key: string;
+  }> | null;
   sources: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -685,6 +700,7 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alignment?: "center" | "left" | "right";
+    size?: "large" | "normal" | "small";
     subtitle?: string;
     alt?: string;
     _type: "image";
@@ -693,7 +709,7 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   authors: string | null;
 } | null;
 // Variable: BACKGROUNDS_QUERY
-// Query: *[_type == "backgrounds" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    text  }
+// Query: *[_type == "backgrounds" && defined(slug.current)] | order(_createdAt asc){    _id,    title,    "slug": slug.current,    text  }
 export type BACKGROUNDS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -865,9 +881,9 @@ export type CLEAN_GODPARENTS_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    image_stone,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
-    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  image_stone,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
-    "*[_type == \"backgrounds\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    images_stones,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
+    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  images_stones,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
+    "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
     "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;

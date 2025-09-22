@@ -10,12 +10,12 @@ export const myPortableTextComponents: PortableTextComponents = {
         console.warn("Skipping invalid image", value);
         return null;
       }
-      //to handle invalid images/prevent errors when adding images in the studio
 
+      // to handle invalid images/prevent errors when adding images in the studio
       const normalize = (str?: string) =>
         str?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
-      //so in draft mode the correct name is passed for rendering
 
+      // so in draft mode the correct name is passed for rendering
       const alignment = normalize(value.alignment) || "center";
       const alignmentClass =
         alignment === "left"
@@ -23,20 +23,39 @@ export const myPortableTextComponents: PortableTextComponents = {
           : alignment === "right"
             ? "float-right ml-6 mt-2 mb-4"
             : "my-4 mx-auto w-full";
-      //to align the images as configured in the studio
 
+      // to align the images as configured in the studio
       const { width, height } = getImageDimensions(value);
       const orientation =
         width > height ? "landscape" : width < height ? "portrait" : "square";
 
-      // to align the image sizes
+      // Get size from Sanity (default to 'normal' if not set)
+      const size = normalize(value.size) || "normal";
 
-      const sizeClass =
-        orientation === "portrait"
-          ? "w-1/2 sm:w-1/3"
-          : orientation === "landscape"
-            ? "w-full sm:w-1/2"
-            : "w-1/3";
+      // Combine orientation and size for width classes
+      const getSizeClass = (orientation: string, size: string) => {
+        const sizeMap: { [key: string]: { [key: string]: string } } = {
+          portrait: {
+            small: "w-1/5 sm:w-1/5",
+            normal: "w-1/2 sm:w-1/3",
+            large: "w-3/4 sm:w-1/2",
+          },
+          landscape: {
+            small: "w-1/2 sm:w-1/3",
+            normal: "w-full sm:w-1/2",
+            large: "w-full",
+          },
+          square: {
+            small: "w-1/4 sm:w-1/5",
+            normal: "w-1/3",
+            large: "w-1/2 sm:w-2/3",
+          },
+        };
+
+        return sizeMap[orientation]?.[size] || sizeMap.portrait.normal;
+      };
+
+      const sizeClass = getSizeClass(orientation, size);
 
       return (
         <figure
@@ -54,6 +73,11 @@ export const myPortableTextComponents: PortableTextComponents = {
           {value.alt && (
             <figcaption className="text-sm text-gray-600 mt-2 text-left">
               {value.alt}
+            </figcaption>
+          )}
+          {value.subtitle && (
+            <figcaption className="text-xs text-gray-500 mt-1 text-left italic">
+              {value.subtitle}
             </figcaption>
           )}
         </figure>
