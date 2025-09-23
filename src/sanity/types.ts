@@ -876,6 +876,92 @@ export type CLEAN_GODPARENTS_QUERYResult = {
   }> | null;
   listcleaners: string | null;
 } | null;
+// Variable: ALL_EVENTS_QUERY
+// Query: *[_type == "dates"] | order(date asc){      _id,      title,      date,      location,      description,      "flyerUrl": flyer.asset->url    }
+export type ALL_EVENTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyerUrl: string | null;
+}>;
+// Variable: EVENT_BY_ID_QUERY
+// Query: *[_type == "dates" && _id == $id][0]{    _id, title, date, location, description, "flyerUrl": flyer.asset->url      }
+export type EVENT_BY_ID_QUERYResult = {
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyerUrl: string | null;
+} | null;
+// Variable: EVENT_YEARS_QUERY
+// Query: array::unique(    *[      _type == "dates" &&      defined(date) &&      !(_id in path("drafts.**"))    ]{      "year": dateTime(date)    } | order(date desc)  )
+export type EVENT_YEARS_QUERYResult = Array<{
+  year: string | null;
+}>;
+// Variable: FUTURE_EVENTS_QUERY
+// Query: *[_type == "dates" && dateTime(date) > dateTime(now())]       | order(date asc){        _id,        title,        date,        location,        description,        "flyerUrl": flyer.asset->url,      }
+export type FUTURE_EVENTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  location: string | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  flyerUrl: string | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -889,5 +975,9 @@ declare module "@sanity/client" {
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;
     "*[_type == \"donations\"][0]{\n    _id,\n    title,\n    text,\n  }": DONATIONS_QUERYResult;
     "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners, \n  }": CLEAN_GODPARENTS_QUERYResult;
+    "\n    *[_type == \"dates\"] | order(date asc){\n      _id,\n      title,\n      date,\n      location,\n      description,\n      \"flyerUrl\": flyer.asset->url\n    }\n    ": ALL_EVENTS_QUERYResult;
+    "\n  *[_type == \"dates\" && _id == $id][0]{\n    _id, title, date, location, description, \"flyerUrl\": flyer.asset->url    \n  }\n  ": EVENT_BY_ID_QUERYResult;
+    "\n  array::unique(\n    *[\n      _type == \"dates\" &&\n      defined(date) &&\n      !(_id in path(\"drafts.**\"))\n    ]{\n      \"year\": dateTime(date)\n    } | order(date desc)\n  ) \n": EVENT_YEARS_QUERYResult;
+    "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
   }
 }

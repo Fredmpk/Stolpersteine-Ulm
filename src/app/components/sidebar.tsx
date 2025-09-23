@@ -81,16 +81,13 @@ export function Sidebar({
         onClick={() => setOpenBiographies(!openBiographies)}
         className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
       >
-        Biografien, Karte & Hintergründe
+        Biografien & Hintergründe
       </button>
       <div
         className={openBiographies ? `flex flex-col ${nestedClass}` : "hidden"}
       >
         <Link href="/biografien" className={linkClass("/biografien")}>
           Biografien
-        </Link>
-        <Link href="/karte" className={linkClass("/karte")}>
-          Karte
         </Link>
 
         <button
@@ -115,6 +112,9 @@ export function Sidebar({
           ))}
         </div>
       </div>
+      <Link href="/karte" className={linkClass("/karte")}>
+        Karte
+      </Link>
 
       <Link
         href="https://dzok-ulm.de/"
