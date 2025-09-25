@@ -28,32 +28,54 @@ export default async function EventByIDPage({
           <div className="flex flex-row gap-2">
             <DateSquare dateString={event?.date || ""} />
             <div className="flex flex-col pt-1">
-              <div className="sm:text-xl lg:text-2xl">{event?.title}</div>
+              <div className="text-xl lg:text-2xl">{event?.title}</div>
               <div className="flex gap-3">
                 <p className="font-bold">{event?.date?.slice(11, 16)}</p>
                 <p>{event?.location}</p>
               </div>
-              <PortableText
-                value={event?.description || []}
-                components={myPortableTextComponents}
-              />
-
-              {event?.flyerUrl && (
-                <div>
-                  <p className="my-2 mx-4">
-                    Sie können hier den Flyer herunterladen:{" "}
-                  </p>
-                  <Link
-                    href={event.flyerUrl || ""}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className=" text-[var(--color-blue-link)] hover:underline hover:text-blue-900 text-lg md:text-xl mb-12 mx-4"
-                  >
-                    DOWNLOAD FLYER
-                  </Link>
-                </div>
-              )}
+              <div className="hidden sm:block">
+                <PortableText
+                  value={event?.description || []}
+                  components={myPortableTextComponents}
+                />
+                {event?.flyerUrl && (
+                  <div>
+                    <p className="my-2 mx-4">
+                      Sie können hier den Flyer herunterladen:{" "}
+                    </p>
+                    <Link
+                      href={event.flyerUrl || ""}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" text-[var(--color-blue-link)] hover:underline hover:text-blue-900 text-lg md:text-xl mb-12 mx-4"
+                    >
+                      DOWNLOAD FLYER
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
+          <div className="block sm:hidden">
+            <PortableText
+              value={event?.description || []}
+              components={myPortableTextComponents}
+            />
+            {event?.flyerUrl && (
+              <div>
+                <p className="my-2 mx-4">
+                  Sie können hier den Flyer herunterladen:{" "}
+                </p>
+                <Link
+                  href={event.flyerUrl || ""}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" text-[var(--color-blue-link)] hover:underline hover:text-blue-900 text-lg md:text-xl mb-12 mx-4"
+                >
+                  DOWNLOAD FLYER
+                </Link>
+              </div>
+            )}
           </div>
         </li>
       </ul>
