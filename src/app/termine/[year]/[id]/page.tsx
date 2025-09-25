@@ -9,10 +9,10 @@ import DateSquare from "../../components/DateSquare";
 export default async function EventByIDPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = params.id;
-  console.log("Fetching event with _id:", params.id);
+  const { id } = await params;
+  console.log("Fetching event with _id:", id);
 
   const { data: event } = (await sanityFetch({
     query: EVENT_BY_ID_QUERY,

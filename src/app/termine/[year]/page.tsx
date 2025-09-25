@@ -9,9 +9,9 @@ import { myPortableTextComponents } from "@/app/components/PortableTextComponent
 export default async function EventByYearPage({
   params,
 }: {
-  params: { year: string };
+  params: Promise<{ year: string }>;
 }) {
-  const year = params.year;
+  const { year } = await params;
 
   const { data: allEvents } = (await sanityFetch({
     query: ALL_EVENTS_QUERY,
