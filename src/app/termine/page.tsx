@@ -19,13 +19,11 @@ export default async function AnstehendeEvents() {
         {futureEvents?.map((event) => (
           <li key={event._id}>
             <div className="flex flex-row gap-2">
-              <Link href={`/termine/${event?.date?.slice(0, 4)}/${event._id}`}>
-                <DateSquare dateString={event.date || ""} />
-              </Link>
+              <DateSquare dateString={event.date || ""} />
               <div className="flex flex-col pt-1">
                 <Link
                   href={`/termine/${event?.date?.slice(0, 4)}/${event._id}`}
-                  className="hover:underline hover:text-blue-900 text-[var(--color-blue-link)] sm:text-xl lg:text-2xl"
+                  className="hover:underline hover:text-blue-900 text-[var(--color-blue-link)] text-xl lg:text-2xl"
                 >
                   {event.title}
                 </Link>
@@ -34,11 +32,37 @@ export default async function AnstehendeEvents() {
                   <p>{event.location}</p>
                 </div>
                 <div className="overflow-hidden line-clamp-4">
-                  <PortableText
-                    value={event.description || []}
-                    components={myPortableTextComponents}
-                  />
+                  <div className="hidden sm:block">
+                    <PortableText
+                      value={event.description || []}
+                      components={myPortableTextComponents}
+                    />
+
+                    {event.flyerUrl && (
+                      <div>
+                        <p>Sie können hier den Flyer herunterladen: </p>
+                        <Link
+                          href={event.flyerUrl || ""}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                        >
+                          DOWNLOAD FLYER
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="block sm:hidden ">
+              <div className="overflow-hidden line-clamp-4">
+                <PortableText
+                  value={event.description || []}
+                  components={myPortableTextComponents}
+                />
+
                 {event.flyerUrl && (
                   <div>
                     <p>Sie können hier den Flyer herunterladen: </p>

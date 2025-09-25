@@ -17,7 +17,7 @@ export default function YearsList({
 
   const links = [
     { label: "Alle", href: "/termine/alle" },
-    { label: "Anstehende", href: "/termine/anstehende" },
+    { label: "Anstehende", href: "/termine" },
     ...yearLinks.map((year) => ({ label: year, href: `/termine/${year}` })),
   ];
 

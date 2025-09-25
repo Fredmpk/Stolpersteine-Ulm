@@ -37,43 +37,46 @@ export default async function AlleEvents() {
                       value={event.description || []}
                       components={myPortableTextComponents}
                     />
+
+                    {event.flyerUrl && (
+                      <div>
+                        <p>Sie können hier den Flyer herunterladen: </p>
+                        <Link
+                          href={event.flyerUrl || ""}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                        >
+                          DOWNLOAD FLYER
+                        </Link>
+                      </div>
+                    )}
                   </div>
-                  {event.flyerUrl && (
-                    <div>
-                      <p>Sie können hier den Flyer herunterladen: </p>
-                      <Link
-                        href={event.flyerUrl || ""}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
-                      >
-                        DOWNLOAD FLYER
-                      </Link>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
 
-            <div className="block sm:hidden overflow-hidden line-clamp-4">
-              <PortableText
-                value={event.description || []}
-                components={myPortableTextComponents}
-              />
+            <div className="block sm:hidden ">
+              <div className="overflow-hidden line-clamp-4">
+                <PortableText
+                  value={event.description || []}
+                  components={myPortableTextComponents}
+                />
 
-              {event.flyerUrl && (
-                <div>
-                  <p>Sie können hier den Flyer herunterladen: </p>
-                  <Link
-                    href={event.flyerUrl || ""}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
-                  >
-                    DOWNLOAD FLYER
-                  </Link>
-                </div>
-              )}
+                {event.flyerUrl && (
+                  <div>
+                    <p>Sie können hier den Flyer herunterladen: </p>
+                    <Link
+                      href={event.flyerUrl || ""}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                    >
+                      DOWNLOAD FLYER
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </li>
         ))}
