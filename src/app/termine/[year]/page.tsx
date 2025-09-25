@@ -30,7 +30,9 @@ export default async function EventByYearPage({
         {filteredEvents?.map((event) => (
           <li key={event._id}>
             <div className="flex flex-row gap-2">
-              <DateSquare dateString={event.date || ""} />
+              <Link href={`/termine/${year}/${event._id}`}>
+                <DateSquare dateString={event.date || ""} />
+              </Link>
               <div className="flex flex-col pt-1">
                 <Link
                   href={`/termine/${year}/${event._id}`}
@@ -55,7 +57,7 @@ export default async function EventByYearPage({
                       href={event.flyerUrl || ""}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                      className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-900 text-lg md:text-xl"
                     >
                       DOWNLOAD FLYER
                     </Link>

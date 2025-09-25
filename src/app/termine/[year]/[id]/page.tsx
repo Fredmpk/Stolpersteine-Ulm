@@ -22,18 +22,13 @@ export default async function EventByIDPage({
   };
   console.log("event", event);
   return (
-    <main className="ml-4">
+    <main className="ml-4 mb-8">
       <ul>
         <li key={event?._id}>
           <div className="flex flex-row gap-2">
             <DateSquare dateString={event?.date || ""} />
             <div className="flex flex-col pt-1">
-              <Link
-                href={`/termine/${event?._id}`}
-                className="hover:underline hover:text-blue-900 text-[var(--color-blue-link)] sm:text-xl lg:text-2xl"
-              >
-                {event?.title}
-              </Link>
+              <div className="sm:text-xl lg:text-2xl">{event?.title}</div>
               <div className="flex gap-3">
                 <p className="font-bold">{event?.date?.slice(11, 16)}</p>
                 <p>{event?.location}</p>
@@ -45,12 +40,14 @@ export default async function EventByIDPage({
 
               {event?.flyerUrl && (
                 <div>
-                  <p>Sie können hier den Flyer herunterladen: </p>
+                  <p className="my-2 mx-4">
+                    Sie können hier den Flyer herunterladen:{" "}
+                  </p>
                   <Link
                     href={event.flyerUrl || ""}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                    className=" text-[var(--color-blue-link)] hover:underline hover:text-blue-900 text-lg md:text-xl mb-12 mx-4"
                   >
                     DOWNLOAD FLYER
                   </Link>

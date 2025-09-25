@@ -19,7 +19,9 @@ export default async function AlleEvents() {
         {allEvents?.map((event) => (
           <li key={event._id}>
             <div className="flex flex-row gap-2">
-              <DateSquare dateString={event.date || ""} />
+              <Link href={`/termine/${event?.date?.slice(0, 4)}/${event._id}`}>
+                <DateSquare dateString={event.date || ""} />
+              </Link>
               <div className="flex flex-col pt-1">
                 <Link
                   href={`/termine/${event?.date?.slice(0, 4)}/${event._id}`}
