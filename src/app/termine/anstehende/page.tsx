@@ -1,22 +1,22 @@
 import { sanityFetch } from "@/sanity/lib/live";
-import { ALL_EVENTS_QUERY } from "@/sanity/lib/queries";
-import { ALL_EVENTS_QUERYResult } from "@/sanity/types";
+import { FUTURE_EVENTS_QUERY } from "@/sanity/lib/queries";
+import { FUTURE_EVENTS_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
 import DateSquare from "../components/DateSquare";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 
-export default async function AlleEvents() {
-  const { data: allEvents } = (await sanityFetch({
-    query: ALL_EVENTS_QUERY,
+export default async function AnstehendeEvents() {
+  const { data: futureEvents } = (await sanityFetch({
+    query: FUTURE_EVENTS_QUERY,
   })) as {
-    data: ALL_EVENTS_QUERYResult;
+    data: FUTURE_EVENTS_QUERYResult;
   };
 
   return (
     <main className="ml-4">
       <ul>
-        {allEvents?.map((event) => (
+        {futureEvents?.map((event) => (
           <li key={event._id}>
             <div className="flex flex-row gap-2">
               <DateSquare dateString={event.date || ""} />
@@ -31,7 +31,7 @@ export default async function AlleEvents() {
                   <p className="font-bold">{event.date?.slice(11, 16)}</p>
                   <p>{event.location}</p>
                 </div>
-                <div className="overflow-hidden line-clamp-4 ">
+                <div className="overflow-hidden line-clamp-4">
                   <PortableText
                     value={event.description || []}
                     components={myPortableTextComponents}

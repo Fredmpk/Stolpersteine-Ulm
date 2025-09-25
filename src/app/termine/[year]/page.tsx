@@ -6,23 +6,34 @@ import DateSquare from "../components/DateSquare";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 
-export default async function AlleEvents() {
+export default async function EventByYearPage({
+  params,
+}: {
+  params: { year: string };
+}) {
+  const year = params.year;
+
   const { data: allEvents } = (await sanityFetch({
     query: ALL_EVENTS_QUERY,
   })) as {
     data: ALL_EVENTS_QUERYResult;
   };
 
+  const filteredEvents = allEvents.filter((event) => {
+    if (!event.date) return false;
+    return event.date.slice(0, 4) === year;
+  });
+
   return (
     <main className="ml-4">
       <ul>
-        {allEvents?.map((event) => (
+        {filteredEvents?.map((event) => (
           <li key={event._id}>
             <div className="flex flex-row gap-2">
               <DateSquare dateString={event.date || ""} />
               <div className="flex flex-col pt-1">
                 <Link
-                  href={`/termine/${event?.date?.slice(0, 4)}/${event._id}`}
+                  href={`/termine/${year}/${event._id}`}
                   className="hover:underline hover:text-blue-900 text-[var(--color-blue-link)] sm:text-xl lg:text-2xl"
                 >
                   {event.title}
@@ -31,7 +42,7 @@ export default async function AlleEvents() {
                   <p className="font-bold">{event.date?.slice(11, 16)}</p>
                   <p>{event.location}</p>
                 </div>
-                <div className="overflow-hidden line-clamp-4 ">
+                <div className="overflow-hidden line-clamp-4">
                   <PortableText
                     value={event.description || []}
                     components={myPortableTextComponents}
