@@ -39,7 +39,7 @@ export default async function RootLayout({
     return (
       <html lang="en">
         <body
-          className={`${firaSans.className} w-5/6 mx-auto min-h-screen flex flex-col`}
+          className={`${firaSans.className} w-4/6 mx-auto min-h-screen flex flex-col`}
         >
           <div className=" pt-4">
             <Header />

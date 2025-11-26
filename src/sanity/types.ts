@@ -329,7 +329,7 @@ export type News = {
   _rev: string;
   title?: string;
   date?: string;
-  text?: Array<{
+  body?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;
@@ -346,7 +346,33 @@ export type News = {
     level?: number;
     _type: "block";
     _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "left" | "center" | "right";
+    size?: "small" | "normal" | "large";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
   }>;
+  flyer?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
 };
 
 export type Dates = {
@@ -931,7 +957,7 @@ export type EVENT_BY_ID_QUERYResult = {
   flyerUrl: string | null;
 } | null;
 // Variable: EVENT_YEARS_QUERY
-// Query: array::unique(    *[      _type == "dates" &&      defined(date) &&      !(_id in path("drafts.**"))    ]{      "year": dateTime(date)    } | order(date desc)  )
+// Query: array::unique(    *[      _type == "dates" &&      defined(date) &&      !(_id in path("drafts.**"))    ]{      "year": dateTime(date)    }   )
 export type EVENT_YEARS_QUERYResult = Array<{
   year: string | null;
 }>;
@@ -962,6 +988,48 @@ export type FUTURE_EVENTS_QUERYResult = Array<{
   }> | null;
   flyerUrl: string | null;
 }>;
+// Variable: NEWS_QUERY
+// Query: *[_type == "news" ] | order(_createdAt desc){        _id,        title,        date,        body,        "flyerUrl": flyer.asset->url      }
+export type NEWS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alignment?: "center" | "left" | "right";
+    size?: "large" | "normal" | "small";
+    subtitle?: string;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+  flyerUrl: string | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -977,7 +1045,8 @@ declare module "@sanity/client" {
     "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners, \n  }": CLEAN_GODPARENTS_QUERYResult;
     "\n    *[_type == \"dates\"] | order(date asc){\n      _id,\n      title,\n      date,\n      location,\n      description,\n      \"flyerUrl\": flyer.asset->url\n    }\n    ": ALL_EVENTS_QUERYResult;
     "\n  *[_type == \"dates\" && _id == $id][0]{\n    _id, title, date, location, description, \"flyerUrl\": flyer.asset->url    \n  }\n  ": EVENT_BY_ID_QUERYResult;
-    "\n  array::unique(\n    *[\n      _type == \"dates\" &&\n      defined(date) &&\n      !(_id in path(\"drafts.**\"))\n    ]{\n      \"year\": dateTime(date)\n    } | order(date desc)\n  ) \n": EVENT_YEARS_QUERYResult;
+    "\n  array::unique(\n    *[\n      _type == \"dates\" &&\n      defined(date) &&\n      !(_id in path(\"drafts.**\"))\n    ]{\n      \"year\": dateTime(date)\n    } \n  ) \n": EVENT_YEARS_QUERYResult;
     "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
+    "*[_type == \"news\" ] | order(_createdAt desc){\n        _id,\n        title,\n        date,\n        body,\n        \"flyerUrl\": flyer.asset->url\n      }": NEWS_QUERYResult;
   }
 }

@@ -17,7 +17,10 @@ export default async function Home() {
         {hero?.quoteAuthor || "Gunter Demnig"}
       </p>
       <p className="md:hidden">____________________________________</p>
-      <p className="hidden md:block">
+      <p className="hidden md:block lg:hidden">
+        ___________________________________________
+      </p>
+      <p className="hidden lg:block">
         ______________________________________________________________
       </p>
       <div className="flex flex-col text-[var(--color-brown-hero)] pl-6 pt-10 sm:p-10 lg:text-lg">

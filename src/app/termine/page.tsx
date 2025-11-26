@@ -14,7 +14,7 @@ export default async function AnstehendeEvents() {
   };
 
   return (
-    <main className="ml-4">
+    <main className="m-4">
       <ul>
         {futureEvents?.map((event) => (
           <li key={event._id}>

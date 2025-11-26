@@ -121,3 +121,15 @@ export const FUTURE_EVENTS_QUERY = defineQuery(`
         "flyerUrl": flyer.asset->url,
       }
       `);
+
+export const NEWS_QUERY = defineQuery(`
+        *[_type == "news"]
+          | order(date desc)
+          [$start...$end] {
+            _id,
+            title,
+            date,
+            body,
+            "flyerUrl": flyer.asset->url
+          }
+      `);
