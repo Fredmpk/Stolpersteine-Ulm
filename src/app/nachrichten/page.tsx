@@ -10,15 +10,14 @@ export const dynamic = "force-dynamic";
 export default async function News({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const params = await searchParams;
   const page = Number(
-    Array.isArray(searchParams?.page)
-      ? searchParams.page[0]
-      : (searchParams?.page ?? 1)
+    Array.isArray(params?.page) ? params.page[0] : (params?.page ?? 1)
   );
 
-  const perPage = 9;
+  const perPage = 8;
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
@@ -81,7 +80,7 @@ export default async function News({
   const pageNumbers = getPageNumbers();
 
   return (
-    <main className="m-4">
+    <main>
       <ul>
         {news.map((n) => (
           <li key={n._id}>
@@ -145,7 +144,7 @@ export default async function News({
                 href={`/nachrichten?page=${pageNum}`}
                 className={`px-3 py-2 rounded border transition ${
                   isActive
-                    ? "bg-[var(--color-sidebar-active)] text-white border-[var(--color-sidebar-active)] font-semibold"
+                    ? "bg-[var(--color-blue-link)] text-white border-[var(--color-blue-link)] font-semibold"
                     : "border-gray-300 hover:bg-gray-100"
                 }`}
               >
