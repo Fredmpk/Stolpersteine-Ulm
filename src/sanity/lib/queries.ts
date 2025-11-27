@@ -133,3 +133,5 @@ export const NEWS_QUERY = defineQuery(`
             "flyerUrl": flyer.asset->url
           }
       `);
+
+export const NEWS_COUNT_QUERY = `count(*[_type == "news"])`;
