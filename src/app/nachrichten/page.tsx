@@ -80,7 +80,7 @@ export default async function News({
   const pageNumbers = getPageNumbers();
 
   return (
-    <main>
+    <main className="m-4">
       <ul>
         {news.map((n) => (
           <li key={n._id}>
