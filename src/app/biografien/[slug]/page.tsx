@@ -43,6 +43,23 @@ export default async function Biographies({
             );
           })}
         </div>
+        <div className="flex flex-wrap gap-2 justify-center">
+          {bio?.stone_texts?.map((stone_text) => (
+            <div key={stone_text._key}>
+              <div
+                className="
+          flex flex-col justify-center items-center 
+          text-center text-xs md:text-sm bg-[#AB8F5C] p-2 rounded-lg  w-28 h-28         
+          md:w-32 md:h-32   
+          xl:w-40 xl:h-40  mx-auto
+          [&_p]:m-0 [&_p]:leading-tight
+        "
+              >
+                <PortableText value={stone_text.text || []} />
+              </div>
+            </div>
+          ))}
+        </div>
 
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio?.title}

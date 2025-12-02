@@ -125,6 +125,28 @@ export type Biographies = {
     _type: "image";
     _key: string;
   }>;
+  stone_texts?: Array<{
+    text?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    _type: "stone_text";
+    _key: string;
+  }>;
   body?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -581,7 +603,7 @@ export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings |
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
-// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    images_stones,    sources,    body,    authors,  }
+// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    images_stones,    stone_texts[]{ text, _key },     sources,    body,    authors,  }
 export type BIOGRAPHY_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -601,6 +623,27 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
     crop?: SanityImageCrop;
     caption?: string;
     _type: "image";
+    _key: string;
+  }> | null;
+  stone_texts: Array<{
+    text: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
     _key: string;
   }> | null;
   sources: Array<{
@@ -658,7 +701,7 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
   authors: string | null;
 }>;
 // Variable: SINGLE_BIOGRAPHY_QUERY
-// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  images_stones,  sources,  body,  authors,}
+// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  images_stones,  stone_texts[]{ text, _key },   sources,  body,  authors,}
 export type SINGLE_BIOGRAPHY_QUERYResult = {
   _id: string;
   title: string | null;
@@ -678,6 +721,27 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
     crop?: SanityImageCrop;
     caption?: string;
     _type: "image";
+    _key: string;
+  }> | null;
+  stone_texts: Array<{
+    text: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
     _key: string;
   }> | null;
   sources: Array<{
@@ -989,7 +1053,7 @@ export type FUTURE_EVENTS_QUERYResult = Array<{
   flyerUrl: string | null;
 }>;
 // Variable: NEWS_QUERY
-// Query: *[_type == "news" ] | order(_createdAt desc){        _id,        title,        date,        body,        "flyerUrl": flyer.asset->url      }
+// Query: *[_type == "news"]          | order(date desc)          [$start...$end] {            _id,            title,            date,            body,            "flyerUrl": flyer.asset->url          }
 export type NEWS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -1035,8 +1099,8 @@ export type NEWS_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    images_stones,\n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
-    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  images_stones,\n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    images_stones,\n    stone_texts[]{ text, _key }, \n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
+    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  images_stones,\n  stone_texts[]{ text, _key }, \n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
     "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
     "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
@@ -1047,6 +1111,6 @@ declare module "@sanity/client" {
     "\n  *[_type == \"dates\" && _id == $id][0]{\n    _id, title, date, location, description, \"flyerUrl\": flyer.asset->url    \n  }\n  ": EVENT_BY_ID_QUERYResult;
     "\n  array::unique(\n    *[\n      _type == \"dates\" &&\n      defined(date) &&\n      !(_id in path(\"drafts.**\"))\n    ]{\n      \"year\": dateTime(date)\n    } \n  ) \n": EVENT_YEARS_QUERYResult;
     "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
-    "*[_type == \"news\" ] | order(_createdAt desc){\n        _id,\n        title,\n        date,\n        body,\n        \"flyerUrl\": flyer.asset->url\n      }": NEWS_QUERYResult;
+    "\n        *[_type == \"news\"]\n          | order(date desc)\n          [$start...$end] {\n            _id,\n            title,\n            date,\n            body,\n            \"flyerUrl\": flyer.asset->url\n          }\n      ": NEWS_QUERYResult;
   }
 }
