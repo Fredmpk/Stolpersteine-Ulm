@@ -35,12 +35,18 @@ export default function Map({ markers }: MapProps) {
     });
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 100);
+  }, []);
+
   return (
     <MapContainer
       center={[48.4011, 9.9876]}
       zoom={12}
       scrollWheelZoom={true}
-      className="w-full h-96 lg:h-120"
+      className="relative w-full h-96 lg:h-120"
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -49,7 +55,7 @@ export default function Map({ markers }: MapProps) {
       {markers.map((m) => (
         <Marker key={m.id} position={[m.lat!, m.lng!]}>
           {m.label && (
-            <Popup>
+            <Popup className="w-54 sm:w-64">
               <h1>{m.label}</h1>
               <p>{m.biotext_short}</p>
               <Link href={`/biografien/${m.slug!}`}>gesamte Biographie</Link>

@@ -14,14 +14,14 @@ export function BurgerMenu({
   const pathname = usePathname();
   const nestedClass = "pl-6";
 
-  const burgerMenuClass = pathname === "/karte" ? " xl:hidden" : "sm:hidden";
+  const burgerMenuClass = pathname === "/karte" ? " xl:hidden " : "sm:hidden";
 
   return (
-    <div className={burgerMenuClass}>
+    <div className={` ${burgerMenuClass} relative z-[9999]`}>
       {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed top-8 right-8 z-60 p-2 rounded-lg text-black bg-[var(--color-sidebar-active)]"
+        className="fixed top-8 right-8 p-2 rounded-lg text-black bg-sidebar-active z-50"
       >
         {open ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -73,7 +73,7 @@ export function BurgerMenu({
 
             <details>
               <summary className="text-black">
-                Biografien, Karte & Hintergründe
+                Biografien & Hintergründe
               </summary>
               <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/biografien" onClick={() => setOpen(false)}>
@@ -99,6 +99,9 @@ export function BurgerMenu({
                 </details>
               </div>
             </details>
+            <Link href="/karte" onClick={() => setOpen(false)}>
+              Karte
+            </Link>
 
             <Link
               href="https://dzok-ulm.de/"

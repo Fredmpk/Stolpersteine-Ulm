@@ -21,7 +21,7 @@ export default async function KartePage() {
 
   return (
     <main className="w-full h-full">
-      <h2 className="text-2xl md:text-4xl text-[var(--color-heading)] my-6">
+      <h2 className="text-2xl md:text-4xl text-heading my-6">
         Karte der Stolpersteine
       </h2>
       <MapWrapper markers={markers} />

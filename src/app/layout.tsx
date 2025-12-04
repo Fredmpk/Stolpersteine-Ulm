@@ -45,9 +45,7 @@ export default async function RootLayout({
           <div className=" pt-4">
             <Header />
           </div>
-          <div className="">
-            <BurgerMenu backgrounds={backgrounds} />
-          </div>
+          <BurgerMenu backgrounds={backgrounds} />
           <div className="flex-row flex">
             <Sidebar backgrounds={backgrounds} />
             <main className="flex-1">{children}</main>
