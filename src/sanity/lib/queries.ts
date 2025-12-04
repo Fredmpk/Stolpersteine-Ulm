@@ -6,8 +6,6 @@ export const BIOGRAPHY_LIST_QUERY =
     title,
     "slug": slug.current,
     adress,
-    latitude,
-    longitude,
     images_stones,
     stone_texts[]{ text, _key }, 
     sources,
@@ -21,13 +19,20 @@ export const SINGLE_BIOGRAPHY_QUERY =
   title,
   "slug": slug.current,
   adress,
-  latitude,
-  longitude,
   images_stones,
   stone_texts[]{ text, _key }, 
   sources,
   body,
   authors,
+}`);
+
+export const BIOGRAPHY_MAP_QUERY =
+  defineQuery(`*[_type == "biographies" && defined(slug.current)]{
+  _id,
+  title,
+  "slug": slug.current,
+  geopoint,
+  biotext_short,
 }`);
 
 export const BACKGROUNDS_QUERY =

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { Fira_Sans } from "next/font/google";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
@@ -49,7 +50,7 @@ export default async function RootLayout({
           </div>
           <div className="flex-row flex">
             <Sidebar backgrounds={backgrounds} />
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
           </div>
           <footer className="relative w-full h-8 sm:h-12 md:h-14 lg:h-16 xl:h-20 mt-auto">
             <Image

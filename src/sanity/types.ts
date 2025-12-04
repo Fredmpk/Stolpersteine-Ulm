@@ -109,8 +109,7 @@ export type Biographies = {
   title?: string;
   slug?: Slug;
   adress?: string;
-  latitude?: number;
-  longitude?: number;
+  geopoint?: Geopoint;
   images_stones?: Array<{
     asset?: {
       _ref: string;
@@ -147,6 +146,7 @@ export type Biographies = {
     _type: "stone_text";
     _key: string;
   }>;
+  biotext_short?: string;
   body?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -481,6 +481,14 @@ export type Hero = {
   };
 };
 
+export type GeopointRadius = {
+  _type: "geopointRadius";
+  lat?: number;
+  lng?: number;
+  alt?: number;
+  radius?: number;
+};
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -599,18 +607,16 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | GeopointRadius | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
-// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    latitude,    longitude,    images_stones,    stone_texts[]{ text, _key },     sources,    body,    authors,  }
+// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    "slug": slug.current,    adress,    images_stones,    stone_texts[]{ text, _key },     sources,    body,    authors,  }
 export type BIOGRAPHY_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
   slug: string | null;
   adress: string | null;
-  latitude: number | null;
-  longitude: number | null;
   images_stones: Array<{
     asset?: {
       _ref: string;
@@ -701,14 +707,12 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
   authors: string | null;
 }>;
 // Variable: SINGLE_BIOGRAPHY_QUERY
-// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  latitude,  longitude,  images_stones,  stone_texts[]{ text, _key },   sources,  body,  authors,}
+// Query: *[_type == "biographies" && slug.current == $slug][0]{  _id,  title,  "slug": slug.current,  adress,  images_stones,  stone_texts[]{ text, _key },   sources,  body,  authors,}
 export type SINGLE_BIOGRAPHY_QUERYResult = {
   _id: string;
   title: string | null;
   slug: string | null;
   adress: string | null;
-  latitude: number | null;
-  longitude: number | null;
   images_stones: Array<{
     asset?: {
       _ref: string;
@@ -798,6 +802,15 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   }> | null;
   authors: string | null;
 } | null;
+// Variable: BIOGRAPHY_MAP_QUERY
+// Query: *[_type == "biographies" && defined(slug.current)]{  _id,  title,  "slug": slug.current,  geopoint,  biotext_short,}
+export type BIOGRAPHY_MAP_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  slug: string | null;
+  geopoint: Geopoint | null;
+  biotext_short: string | null;
+}>;
 // Variable: BACKGROUNDS_QUERY
 // Query: *[_type == "backgrounds" && defined(slug.current)] | order(_createdAt asc){    _id,    title,    "slug": slug.current,    text  }
 export type BACKGROUNDS_QUERYResult = Array<{
@@ -1099,8 +1112,9 @@ export type NEWS_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    latitude,\n    longitude,\n    images_stones,\n    stone_texts[]{ text, _key }, \n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
-    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  latitude,\n  longitude,\n  images_stones,\n  stone_texts[]{ text, _key }, \n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    adress,\n    images_stones,\n    stone_texts[]{ text, _key }, \n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
+    "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  images_stones,\n  stone_texts[]{ text, _key }, \n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  geopoint,\n  biotext_short,\n}": BIOGRAPHY_MAP_QUERYResult;
     "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
     "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
     "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
