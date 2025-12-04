@@ -1,18 +1,8 @@
 "use client";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import Link from "next/link";
-
-const DefaultIcon = L.icon({
-  iconUrl: icon.src,
-  shadowUrl: iconShadow.src,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
+import { useEffect } from "react";
 
 type MapMarker = {
   id: string | number;
@@ -28,6 +18,23 @@ type MapProps = {
 };
 
 export default function Map({ markers }: MapProps) {
+  useEffect(() => {
+    // Fix Leaflet icon issue with Next.js
+    const DefaultIcon = L.Icon.Default.prototype as L.Icon.Default & {
+      _getIconUrl?: string;
+    };
+
+    delete DefaultIcon._getIconUrl;
+
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl:
+        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+      shadowUrl:
+        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    });
+  }, []);
+
   return (
     <MapContainer
       center={[48.4011, 9.9876]}
