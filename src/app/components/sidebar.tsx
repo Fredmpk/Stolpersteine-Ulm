@@ -32,8 +32,14 @@ export function Sidebar({
 
   const nestedClass = "pl-6"; // indentation for nested links
 
+  // Hide sidebar on /karte page only on screens smaller than xl
+  const sidebarClass =
+    pathname === "/karte"
+      ? "min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden xl:flex mr-4"
+      : "min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden sm:flex mr-4";
+
   return (
-    <aside className="min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden sm:flex mr-4">
+    <aside className={sidebarClass}>
       <Link
         href="/eine-buerger-initiative"
         className={linkClass("/eine-buerger-initiative")}

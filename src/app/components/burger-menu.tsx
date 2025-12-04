@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function BurgerMenu({
   backgrounds,
@@ -10,11 +11,13 @@ export function BurgerMenu({
   backgrounds: BACKGROUNDS_QUERYResult;
 }) {
   const [open, setOpen] = useState(false);
-
+  const pathname = usePathname();
   const nestedClass = "pl-6";
 
+  const burgerMenuClass = pathname === "/karte" ? " xl:hidden" : "sm:hidden";
+
   return (
-    <div className="sm:hidden">
+    <div className={burgerMenuClass}>
       {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
