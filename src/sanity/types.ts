@@ -13,6 +13,61 @@
  */
 
 // Source: schema.json
+export type Process = {
+  _id: string;
+  _type: "process";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  description?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  images?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    caption?: string;
+    _type: "image";
+    _key: string;
+  }>;
+  media?: Array<{
+    title?: string;
+    url?: string;
+    pdf?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      media?: unknown;
+      _type: "file";
+    };
+    _key: string;
+  }>;
+};
+
 export type Backgrounds = {
   _id: string;
   _type: "backgrounds";
@@ -481,14 +536,6 @@ export type Hero = {
   };
 };
 
-export type GeopointRadius = {
-  _type: "geopointRadius";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-  radius?: number;
-};
-
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -607,7 +654,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | GeopointRadius | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Process | Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
@@ -1107,6 +1154,44 @@ export type NEWS_QUERYResult = Array<{
   }> | null;
   flyerUrl: string | null;
 }>;
+// Variable: PROCESS_QUERY
+// Query: *[_type == "process"][0]{      _id,      description,      images[]{        _key,        asset,        caption      },      media[]{  title,  url,  "pdfUrl": pdf.asset->url}    }
+export type PROCESS_QUERYResult = {
+  _id: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  images: Array<{
+    _key: string;
+    asset: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    } | null;
+    caption: string | null;
+  }> | null;
+  media: Array<{
+    title: string | null;
+    url: string | null;
+    pdfUrl: string | null;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1126,5 +1211,6 @@ declare module "@sanity/client" {
     "\n  array::unique(\n    *[\n      _type == \"dates\" &&\n      defined(date) &&\n      !(_id in path(\"drafts.**\"))\n    ]{\n      \"year\": dateTime(date)\n    } \n  ) \n": EVENT_YEARS_QUERYResult;
     "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
     "\n        *[_type == \"news\"]\n          | order(date desc)\n          [$start...$end] {\n            _id,\n            title,\n            date,\n            body,\n            \"flyerUrl\": flyer.asset->url\n          }\n      ": NEWS_QUERYResult;
+    "*[_type == \"process\"][0]{\n      _id,\n      description,\n      images[]{\n        _key,\n        asset,\n        caption\n      },\n      media[]{\n  title,\n  url,\n  \"pdfUrl\": pdf.asset->url\n}\n    }": PROCESS_QUERYResult;
   }
 }

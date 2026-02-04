@@ -142,3 +142,18 @@ export const NEWS_QUERY = defineQuery(`
       `);
 
 export const NEWS_COUNT_QUERY = `count(*[_type == "news"])`;
+
+export const PROCESS_QUERY = defineQuery(`*[_type == "process"][0]{
+      _id,
+      description,
+      images[]{
+        _key,
+        asset,
+        caption
+      },
+      media[]{
+  title,
+  url,
+  "pdfUrl": pdf.asset->url
+}
+    }`);

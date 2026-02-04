@@ -55,7 +55,7 @@ export function BurgerMenu({
               </div>
             </details>
 
-            <details>
+            <details open>
               <summary className="text-black">Spenden & Putzpat*innen</summary>
               <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
                 <Link href="/spenden" onClick={() => setOpen(false)}>
@@ -67,11 +67,19 @@ export function BurgerMenu({
               </div>
             </details>
 
-            <Link href="/verlegungen" onClick={() => setOpen(false)}>
-              Bisherige Verlegungen
-            </Link>
-
             <details>
+              <summary className="text-black">Bisherige Verlegungen</summary>
+              <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
+                <Link href="/bisherige-verlegungen/verlegungsablauf" onClick={() => setOpen(false)}>
+                  Verlegungsablauf
+                </Link>
+                <Link href="/bisherige-verlegungen/chronik" onClick={() => setOpen(false)}>
+                  Chronik
+                </Link>
+              </div>
+            </details>
+
+            <details open>
               <summary className="text-black">
                 Biografien & Hintergründe
               </summary>

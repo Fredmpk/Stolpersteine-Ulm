@@ -15,6 +15,7 @@ export function Sidebar({
   const [openDates, setOpenDates] = useState(false);
   const [openDonations, setOpenDonations] = useState(false);
   const [openBiographies, setOpenBiographies] = useState(false);
+  const [openVerlegungen, setOpenVerlegungen] = useState(false);
   const [openBackgrounds, setOpenBackgrounds] = useState(false);
   const [openLegal, setOpenLegal] = useState(false);
 
@@ -79,9 +80,20 @@ export function Sidebar({
         </Link>
       </div>
 
-      <Link href="/verlegungen" className={linkClass("/verlegungen")}>
+      <button
+        onClick={() => setOpenVerlegungen(!openVerlegungen)}
+        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
+      >
         Bisherige Verlegungen
-      </Link>
+      </button>
+      <div className={openVerlegungen ? `flex flex-col ${nestedClass}` : "hidden"}>
+        <Link href="/bisherige-verlegungen/verlegungsablauf" className={linkClass("/bisherige-verlegungen/verlegungsablauf")}>
+          Verlegungsablauf
+        </Link>
+        <Link href="/bisherige-verlegungen/chronik" className={linkClass("/bisherige-verlegungen/chronik")}>
+          Chronik
+        </Link>
+      </div>
 
       <button
         onClick={() => setOpenBiographies(!openBiographies)}
