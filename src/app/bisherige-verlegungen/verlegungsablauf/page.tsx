@@ -15,7 +15,7 @@ export default async function VerlegungsablaufPage() {
 
   if (!verlegungsablauf) {
     return (
-      <main className="my-4 sm:my-6 mx-4 sm:mx-6 md:mx-8 lg:mx-10 max-w-7xl">
+      <main className="my-6 ml-10 mr-2">
         <h2 className="text-2xl sm:text-3xl md:text-4xl text-[var(--color-heading)] my-4 sm:my-6">
           Verlegungsablauf
         </h2>
@@ -31,12 +31,11 @@ export default async function VerlegungsablaufPage() {
   const mediaItems = verlegungsablauf.media ?? [];
 
   return (
-    <main className="my-4 sm:my-6 mx-4 sm:mx-6 md:mx-8 lg:mx-10 max-w-7xl">
+    <main className="my-4 sm:my-6 mx-4 sm:mx-6 md:mx-8 lg:mx-10 max-w-7xl mx-auto">
       {/* Header */}
       <h2 className="text-2xl sm:text-3xl md:text-4xl text-[var(--color-heading)] my-4 sm:my-6">
         Verlegungsablauf
       </h2>
-
       {/* Beschreibung */}
       <div className="text-sm sm:text-base mb-8 sm:mb-12 max-w-4xl">
         <PortableText
@@ -44,8 +43,7 @@ export default async function VerlegungsablaufPage() {
           components={myPortableTextComponents}
         />
       </div>
-
-      {/* Bildergalerie */}
+      Bildergalerie
       {galleryImages.length > 0 && (
         <section className="mb-8 sm:mb-12">
           <h3 className="text-xl sm:text-2xl md:text-3xl text-[var(--color-heading)] mb-4 sm:mb-6">
@@ -54,7 +52,6 @@ export default async function VerlegungsablaufPage() {
           <ImageGallery images={galleryImages} />
         </section>
       )}
-
       {/* Presseberichte (media[]) */}
       {mediaItems.length > 0 && (
         <section className="mb-8 sm:mb-12 max-w-4xl">

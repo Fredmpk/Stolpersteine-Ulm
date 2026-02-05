@@ -61,10 +61,10 @@ export default function ImageGallery({ images }: { images: GalleryImage[] }) {
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden max-w-6xl mx-auto">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full sm:w-[350px] md:w-full">
       {/* Main Image */}
       <div
-        className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-gray-200 group touch-pan-y"
+        className="relative w-full aspect-4/3  bg-gray-200 group touch-pan-y"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -74,8 +74,7 @@ export default function ImageGallery({ images }: { images: GalleryImage[] }) {
             src={urlFor(images[currentImageIndex].asset).url()}
             alt={images[currentImageIndex].caption ?? ""}
             fill
-            className="object-contain sm:object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
+            className="object-contain"
             priority
           />
         )}
@@ -168,7 +167,7 @@ export default function ImageGallery({ images }: { images: GalleryImage[] }) {
       </div>
 
       {/* Thumbnail Navigation - Scrollable on mobile */}
-      <div className="p-3 sm:p-4 bg-white border-t">
+      <div className="p-3 sm:p-4 bg-white border-t w-full overflow-hidden">
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           {images.map((image, index) => (
             <button
