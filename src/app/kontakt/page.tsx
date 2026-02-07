@@ -1,16 +1,17 @@
 "use client";
-import Head from "next/head";
+
+import Script from "next/script";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useFormspark } from "@formspark/use-formspark";
 
-const FORMSPARK_FORM_ID = "Z6rMHx4DN"; // Your form ID
+const FORMSPARK_FORM_ID = "Z6rMHx4DN"; // Your Formspark form ID
+const HCAPTCHA_SITEKEY = "234ab8b0-f654-4dc6-9770-e3a2bc46e482"; // Your hCaptcha sitekey
 
 interface FormData {
   name: string;
   email: string;
   message: string;
-  company: string; // honeypot
-  "h-captcha-response"?: string; // hCaptcha token
+  company: string;
   [key: string]: string | undefined;
 }
 
@@ -23,7 +24,7 @@ export default function Kontakt() {
     name: "",
     email: "",
     message: "",
-    company: "", // honeypot
+    company: "",
   });
 
   const handleChange = (
@@ -38,43 +39,35 @@ export default function Kontakt() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Get hCaptcha token
-    const hcaptchaResponse = (window as any).hcaptcha?.getResponse();
+    // Get hCaptcha response token
+    const hcaptchaResponse = (e.target as HTMLFormElement).querySelector(
+      '[name="h-captcha-response"]'
+    ) as HTMLTextAreaElement;
 
-    if (!hcaptchaResponse) {
-      alert("Bitte lösen Sie das Captcha");
-      return;
-    }
-
-    // Include hCaptcha token in submission
-    const submitData = {
+    await submit({
       ...formData,
-      "h-captcha-response": hcaptchaResponse,
-    };
+      "h-captcha-response": hcaptchaResponse?.value || "",
+    });
 
-    await submit(submitData);
     alert("Formular gesendet!");
 
-    // Reset form and hCaptcha
     setFormData({
       name: "",
       email: "",
       message: "",
       company: "",
     });
-    (window as any).hcaptcha?.reset();
   };
 
   return (
     <>
-      <Head>
-        <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-      </Head>
+      <Script src="https://js.hcaptcha.com/1/api.js" strategy="lazyOnload" />
+
       <h1 className="text-2xl md:text-4xl text-[var(--color-heading)] my-6">
         Kontakt
       </h1>
+
       <form onSubmit={onSubmit} className="max-w-md lg:max-w-lg space-y-4">
-        {/* Honeypot */}
         <input
           type="text"
           name="company"
@@ -130,11 +123,7 @@ export default function Kontakt() {
           />
         </div>
 
-        {/* hCaptcha */}
-        <div
-          className="h-captcha"
-          data-sitekey="234ab8b0-f654-4dc6-9770-e3a2bc46e482"
-        ></div>
+        <div className="h-captcha" data-sitekey={HCAPTCHA_SITEKEY}></div>
 
         <div className="flex justify-center">
           <button
