@@ -264,37 +264,15 @@ export type Layings = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  date?: string;
-  location?: string;
-  description?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
+  biographies?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
     _key: string;
+    [internalGroqTypeReferenceTo]?: "biographies";
   }>;
-  flyer?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
-  };
-  gallery?: Array<{
+  date?: string;
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -305,40 +283,30 @@ export type Layings = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     title?: string;
+    alt?: string;
     _type: "image";
+  };
+  Links_videos?: Array<{
+    title?: string;
+    description?: string;
+    url?: string;
+    _type: "link";
     _key: string;
   }>;
-  video?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-    };
-    media?: unknown;
-    _type: "file";
-  };
-  speeches?: Array<{
+  pdf_speeches?: Array<{
     title?: string;
-    text?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-    _type: "speech";
+    description?: string;
+    pdf?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+      };
+      media?: unknown;
+      _type: "file";
+    };
+    _type: "pdf";
     _key: string;
   }>;
 };
@@ -1192,6 +1160,42 @@ export type PROCESS_QUERYResult = {
     pdfUrl: string | null;
   }> | null;
 } | null;
+// Variable: LAYINGS_QUERY
+// Query: *[_type == "layings"]{      _id,      title,      date,      image{        asset->{          _id,          url        },        title,        alt      },      biographies[]->{        _id,        title,        slug,        adress,              },      Links_videos[]{        title,        description,        url      },      pdf_speeches[]{        title,        description,        pdf{          asset->{            _id,            url          }        }      }    }
+export type LAYINGS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  date: string | null;
+  image: {
+    asset: {
+      _id: string;
+      url: string | null;
+    } | null;
+    title: string | null;
+    alt: string | null;
+  } | null;
+  biographies: Array<{
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+    adress: string | null;
+  }> | null;
+  Links_videos: Array<{
+    title: string | null;
+    description: string | null;
+    url: string | null;
+  }> | null;
+  pdf_speeches: Array<{
+    title: string | null;
+    description: string | null;
+    pdf: {
+      asset: {
+        _id: string;
+        url: string | null;
+      } | null;
+    } | null;
+  }> | null;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1212,5 +1216,6 @@ declare module "@sanity/client" {
     "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
     "\n        *[_type == \"news\"]\n          | order(date desc)\n          [$start...$end] {\n            _id,\n            title,\n            date,\n            body,\n            \"flyerUrl\": flyer.asset->url\n          }\n      ": NEWS_QUERYResult;
     "*[_type == \"process\"][0]{\n      _id,\n      description,\n      images[]{\n        _key,\n        asset,\n        caption\n      },\n      media[]{\n  title,\n  url,\n  \"pdfUrl\": pdf.asset->url\n}\n    }": PROCESS_QUERYResult;
+    "*[_type == \"layings\"]{\n      _id,\n      title,\n      date,\n      image{\n        asset->{\n          _id,\n          url\n        },\n        title,\n        alt\n      },\n      biographies[]->{\n        _id,\n        title,\n        slug,\n        adress,\n        \n      },\n      Links_videos[]{\n        title,\n        description,\n        url\n      },\n      pdf_speeches[]{\n        title,\n        description,\n        pdf{\n          asset->{\n            _id,\n            url\n          }\n        }\n      }\n    }": LAYINGS_QUERYResult;
   }
 }

@@ -157,3 +157,39 @@ export const PROCESS_QUERY = defineQuery(`*[_type == "process"][0]{
   "pdfUrl": pdf.asset->url
 }
     }`);
+
+export const LAYINGS_QUERY = defineQuery(`*[_type == "layings"]{
+      _id,
+      title,
+      date,
+      image{
+        asset->{
+          _id,
+          url
+        },
+        title,
+        alt
+      },
+      biographies[]->{
+        _id,
+        title,
+        slug,
+        adress,
+        
+      },
+      Links_videos[]{
+        title,
+        description,
+        url
+      },
+      pdf_speeches[]{
+        title,
+        description,
+        pdf{
+          asset->{
+            _id,
+            url
+          }
+        }
+      }
+    }`);
