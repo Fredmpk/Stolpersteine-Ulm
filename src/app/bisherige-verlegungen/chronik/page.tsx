@@ -60,7 +60,7 @@ export default async function ChronikPage() {
                     >
                       <h5 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
                         <Link
-                          href={`/biografie/${bio.slug?.current}`}
+                          href={`/biografien/${bio.slug?.current}`}
                           className="hover:text-blue-600 transition-colors"
                         >
                           {bio.title}
