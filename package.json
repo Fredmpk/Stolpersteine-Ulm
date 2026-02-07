@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@formspark/use-formspark": "^0.1.42",
     "@portabletext/react": "^4.0.3",
     "@sanity/image-url": "1",
     "@sanity/vision": "4",
