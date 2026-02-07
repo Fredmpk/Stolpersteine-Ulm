@@ -3,9 +3,9 @@ import Head from "next/head";
 export default function Kontakt() {
   return (
     <>
-      <Head>
+      {/* <Head>
         <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-      </Head>
+      </Head> */}
       <h1 className="text-2xl md:text-4xl text-[var(--color-heading)] my-6">
         Kontakt
       </h1>
@@ -15,12 +15,12 @@ export default function Kontakt() {
         className="max-w-md lg:max-w-lg space-y-4"
       >
         {/* Honeypot (bots will fill this, humans won't) */}
-        <input
+        {/* <input
           type="text"
           name="company"
           autoComplete="off"
           className="hidden"
-        />
+        /> */}
 
         <div className="flex flex-col gap-1">
           <label htmlFor="name" className="text-sm">
@@ -50,7 +50,7 @@ export default function Kontakt() {
 
         <div className="flex flex-col gap-1">
           <label htmlFor="message" className="text-sm">
-            Nachricht
+            Nachricht ohne honeypot ohne captcha
           </label>
           <textarea
             id="message"
@@ -62,10 +62,10 @@ export default function Kontakt() {
         </div>
 
         {/* hCaptcha */}
-        <div
+        {/* <div
           className="h-captcha"
           data-sitekey="234ab8b0-f654-4dc6-9770-e3a2bc46e482"
-        ></div>
+        ></div> */}
 
         <div className="flex justify-center">
           <button
