@@ -31,25 +31,32 @@ export default async function BiografienPage() {
             (b.names && b.names.length > 0
               ? b.names
               : [b.title ?? "Untitled"]
-            ).map((name) => (
-              <li
-                key={`${b._id}-${name}`}
-                className="flex justify-between items-center"
-              >
-                <div>
-                  <a href={`/biografien/${b.slug!}`} className="flex flex-row">
-                    <p className="text-blue-800 hover:underline hover:text-blue-900">
-                      {name}
-                    </p>
-                    <p className="ml-2 text-blue-800 hover:underline hover:text-blue-900">
-                      →
-                    </p>
-                  </a>
-                </div>
-                <p className="text-sm text-right">{b.adress}</p>
-              </li>
-            )),
-          )}
+            ).map((name) => ({
+              name,
+              slug: b.slug,
+              adress: b.adress,
+              id: b._id,
+            })),
+          )
+          .sort((a, b) => a.name.localeCompare(b.name, "de"))
+          .map(({ name, slug, adress, id }) => (
+            <li
+              key={`${id}-${name}`}
+              className="flex justify-between items-center"
+            >
+              <div>
+                <a href={`/biografien/${slug!}`} className="flex flex-row">
+                  <p className="text-blue-800 hover:underline hover:text-blue-900">
+                    {name}
+                  </p>
+                  <p className="ml-2 text-blue-800 hover:underline hover:text-blue-900">
+                    →
+                  </p>
+                </a>
+              </div>
+              <p className="text-sm text-right">{adress}</p>
+            </li>
+          ))}
       </ul>
     </main>
   );
