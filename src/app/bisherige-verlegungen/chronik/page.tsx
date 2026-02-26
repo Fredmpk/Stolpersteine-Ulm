@@ -22,6 +22,7 @@ export default async function ChronikPage() {
         {layings.map((laying) => (
           <article
             key={laying._id}
+            id={laying.date ?? undefined}
             className="bg-white rounded-lg shadow-xs overflow-hidden"
           >
             {/* Datum Header */}
@@ -89,7 +90,7 @@ export default async function ChronikPage() {
                       {laying.Links_videos.map((video) => {
                         // YouTube ID aus der URL extrahieren (nur grobes Beispiel)
                         const match = video.url?.match(
-                          /(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/
+                          /(?:youtu\.be\/|youtube\.com\/watch\?v=)([\w-]+)/,
                         );
                         const videoId = match ? match[1] : null;
 

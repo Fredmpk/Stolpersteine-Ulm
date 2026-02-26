@@ -36,16 +36,17 @@ export default async function BiografienPage() {
               slug: b.slug,
               adress: b.adress,
               id: b._id,
+              date: b.date,
             })),
           )
           .sort((a, b) => a.name.localeCompare(b.name, "de"))
-          .map(({ name, slug, adress, id }) => (
+          .map(({ name, slug, adress, id, date }) => (
             <li
               key={`${id}-${name}`}
               className="flex justify-between items-center"
             >
               <div>
-                <a href={`/biografien/${slug!}`} className="flex flex-row">
+                <a href={`/biografien/${slug!}`} className="flex flex-row pb-2">
                   <p className="text-blue-800 hover:underline hover:text-blue-900">
                     {name}
                   </p>
@@ -54,7 +55,15 @@ export default async function BiografienPage() {
                   </p>
                 </a>
               </div>
-              <p className="text-sm text-right">{adress}</p>
+              <div className="flex flex-col items-end gap-1 pb-2">
+                <p className="text-sm text-right">{adress}</p>
+                <a
+                  href={`/bisherige-verlegungen/chronik#${date}`}
+                  className="text-xs text-gray-500 hover:text-blue-800 hover:underline"
+                >
+                  {date}
+                </a>
+              </div>
             </li>
           ))}
       </ul>

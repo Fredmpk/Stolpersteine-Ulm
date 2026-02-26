@@ -165,6 +165,7 @@ export type Biographies = {
   names?: Array<string>;
   slug?: Slug;
   adress?: string;
+  date?: string;
   geopoint?: Geopoint;
   images_stones?: Array<{
     asset?: {
@@ -627,13 +628,14 @@ export type AllSanitySchemaTypes = Process | Backgrounds | Legal | Biographies |
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
-// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    names,    "slug": slug.current,    adress,    images_stones,    stone_texts[]{ text, _key },     sources,    body,    authors,  }
+// Query: *[_type == "biographies" && defined(slug.current)] | order(title asc){    _id,    title,    names,    "slug": slug.current,    adress,    date,    images_stones,    stone_texts[]{ text, _key },     sources,    body,    authors,  }
 export type BIOGRAPHY_LIST_QUERYResult = Array<{
   _id: string;
   title: string | null;
   names: Array<string> | null;
   slug: string | null;
   adress: string | null;
+  date: string | null;
   images_stones: Array<{
     asset?: {
       _ref: string;
@@ -1203,7 +1205,7 @@ export type LAYINGS_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    names,\n    \"slug\": slug.current,\n    adress,\n    images_stones,\n    stone_texts[]{ text, _key }, \n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
+    "*[_type == \"biographies\" && defined(slug.current)] | order(title asc){\n    _id,\n    title,\n    names,\n    \"slug\": slug.current,\n    adress,\n    date,\n    images_stones,\n    stone_texts[]{ text, _key }, \n    sources,\n    body,\n    authors,\n  }": BIOGRAPHY_LIST_QUERYResult;
     "*[_type == \"biographies\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  adress,\n  images_stones,\n  stone_texts[]{ text, _key }, \n  sources,\n  body,\n  authors,\n}": SINGLE_BIOGRAPHY_QUERYResult;
     "*[_type == \"biographies\" && defined(slug.current)]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  geopoint,\n  biotext_short,\n}": BIOGRAPHY_MAP_QUERYResult;
     "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;

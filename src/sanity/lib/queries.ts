@@ -7,6 +7,7 @@ export const BIOGRAPHY_LIST_QUERY =
     names,
     "slug": slug.current,
     adress,
+    date,
     images_stones,
     stone_texts[]{ text, _key }, 
     sources,
