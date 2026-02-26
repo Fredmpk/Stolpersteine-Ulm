@@ -61,7 +61,13 @@ export default async function BiografienPage() {
                   href={`/bisherige-verlegungen/chronik#${date}`}
                   className="text-xs text-gray-500 hover:text-blue-800 hover:underline"
                 >
-                  {date}
+                  {date
+                    ? new Date(date).toLocaleDateString("de-DE", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
+                    : ""}
                 </a>
               </div>
             </li>
