@@ -4,6 +4,7 @@ export const BIOGRAPHY_LIST_QUERY =
   defineQuery(`*[_type == "biographies" && defined(slug.current)] | order(title asc){
     _id,
     title,
+    names,
     "slug": slug.current,
     adress,
     images_stones,
