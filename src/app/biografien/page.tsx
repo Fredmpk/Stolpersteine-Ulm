@@ -28,10 +28,7 @@ export default async function BiografienPage() {
         {bios
           .filter((b) => !!b.slug)
           .map((b) => (
-            <li
-              key={b._id}
-              className="flex justify-between items-center lg:w-3/4"
-            >
+            <li key={b._id} className="flex justify-between items-center ">
               <div>
                 <a href={`/biografien/${b.slug!}`} className="flex flex-row">
                   <p className="text-blue-800 hover:underline hover:text-blue-900">
@@ -42,7 +39,7 @@ export default async function BiografienPage() {
                   </p>
                 </a>
               </div>
-              <p className="text-sm">{b.adress}</p>
+              <p className="text-sm text-right">{b.adress}</p>
             </li>
           ))}
       </ul>
