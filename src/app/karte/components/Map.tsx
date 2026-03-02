@@ -2,7 +2,9 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useMap } from "react-leaflet";
+import { useEffect, useRef } from "react";
+import { Marker as LeafletMarker } from "leaflet";
 
 type MapMarker = {
   id: string | number;
@@ -16,7 +18,50 @@ type MapMarker = {
 type MapProps = {
   markers: MapMarker[];
 };
+function FocusMarker({
+  markers,
+  focusId,
+}: {
+  markers: MapMarker[];
+  focusId?: string;
+}) {
+  const map = useMap();
+  const markerRefs = useRef<Record<string, LeafletMarker>>({});
 
+  useEffect(() => {
+    if (!focusId) return;
+    const target = markers.find((m) => m.id === focusId);
+    if (!target?.lat || !target?.lng) return;
+
+    map.setView([target.lat, target.lng], 16);
+    // Popup öffnen
+    markerRefs.current[focusId]?.openPopup();
+  }, [focusId, map, markers]);
+
+  return (
+    <>
+      {markers
+        .filter((m) => m.lat != null && m.lng != null)
+        .map((m) => (
+          <Marker
+            key={m.id}
+            position={[m.lat!, m.lng!]}
+            ref={(ref) => {
+              if (ref) markerRefs.current[String(m.id)] = ref;
+            }}
+          >
+            {m.label && (
+              <Popup>
+                <h1>{m.label}</h1>
+                <p>{m.biotext_short}</p>
+                <Link href={`/biografien/${m.slug!}`}>gesamte Biographie</Link>
+              </Popup>
+            )}
+          </Marker>
+        ))}
+    </>
+  );
+}
 export default function Map({ markers }: MapProps) {
   useEffect(() => {
     // Fix Leaflet icon issue with Next.js
@@ -52,17 +97,19 @@ export default function Map({ markers }: MapProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       />
-      {markers.map((m) => (
-        <Marker key={m.id} position={[m.lat!, m.lng!]}>
-          {m.label && (
-            <Popup className="w-54 sm:w-64">
-              <h1>{m.label}</h1>
-              <p>{m.biotext_short}</p>
-              <Link href={`/biografien/${m.slug!}`}>gesamte Biographie</Link>
-            </Popup>
-          )}
-        </Marker>
-      ))}
+      {markers
+        .filter((m) => m.lat != null && m.lng != null)
+        .map((m) => (
+          <Marker key={m.id} position={[m.lat!, m.lng!]}>
+            {m.label && (
+              <Popup className="w-54 sm:w-64">
+                <h1>{m.label}</h1>
+                <p>{m.biotext_short}</p>
+                <Link href={`/biografien/${m.slug!}`}>gesamte Biographie</Link>
+              </Popup>
+            )}
+          </Marker>
+        ))}
     </MapContainer>
   );
 }

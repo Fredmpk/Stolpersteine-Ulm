@@ -3,7 +3,12 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { BIOGRAPHY_MAP_QUERY } from "@/sanity/lib/queries";
 import { BIOGRAPHY_MAP_QUERYResult } from "@/sanity/types";
 
-export default async function KartePage() {
+export default async function KartePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ id?: string }>;
+}) {
+  const { id } = await searchParams;
   const { data } = (await sanityFetch({
     query: BIOGRAPHY_MAP_QUERY,
   })) as {
@@ -24,7 +29,7 @@ export default async function KartePage() {
       <h2 className="text-2xl md:text-4xl text-heading my-6">
         Karte der Stolpersteine
       </h2>
-      <MapWrapper markers={markers} />
+      <MapWrapper markers={markers} focusId={id || ""} />
     </main>
   );
 }

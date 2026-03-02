@@ -6,6 +6,7 @@ import { SINGLE_BIOGRAPHY_QUERY } from "@/sanity/lib/queries";
 import { SINGLE_BIOGRAPHY_QUERYResult } from "@/sanity/types";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export default async function Biographies({
   params,
@@ -64,22 +65,32 @@ export default async function Biographies({
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio?.title}
         </h2>
-        <div className="mt-2 mb-6 text-sm sm:text-base text-[var(--color-muted)] flex flex-col gap-2">
-          {bio?.adress && <span>{bio.adress}</span>}
+        <div className="mt-2 mb-12  text-sm sm:text-base text-zinc-500 flex flex-col gap-2">
+          {bio?.adress && (
+            <Link
+              href={`/karte?id=${bio._id}`}
+              className="hover:underline underline-offset-4 font-semibold hover:text-blue-800 transition-colors flex gap-4"
+            >
+              {bio.adress}
+              <p>→</p>
+            </Link>
+          )}
+
           {bio?.date && (
             <a
               href={`/bisherige-verlegungen/chronik#${bio.date}`}
-              className="hover:underline underline-offset-4 text-blue-500 hover:text-blue-800 transition-colors"
+              className="hover:underline font-semibold underline-offset-4 hover:text-blue-800 transition-colors flex gap-3"
               aria-label={`Chronikeintrag zur Verlegung vom ${new Date(
                 bio.date,
               ).toLocaleDateString("de-DE")}`}
             >
-              zur Verlegung vom{" "}
+              Verlegung vom{"  "}
               {new Date(bio.date).toLocaleDateString("de-DE", {
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",
-              })}{" "}
+              })}
+              {"    "} <p>→</p>
             </a>
           )}
         </div>
