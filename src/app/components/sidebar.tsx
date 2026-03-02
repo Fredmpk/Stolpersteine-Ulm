@@ -37,7 +37,7 @@ export function Sidebar({
   const sidebarClass =
     pathname === "/karte"
       ? "min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden xl:flex mr-4"
-      : "min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden sm:flex mr-4";
+      : "w-1/3 md:w-1/4 lg:w-1/5 xl:1/6  flex-col pt-4 hidden sm:flex mr-4";
 
   return (
     <aside className={sidebarClass}>
@@ -86,11 +86,19 @@ export function Sidebar({
       >
         Bisherige Verlegungen
       </button>
-      <div className={openVerlegungen ? `flex flex-col ${nestedClass}` : "hidden"}>
-        <Link href="/bisherige-verlegungen/verlegungsablauf" className={linkClass("/bisherige-verlegungen/verlegungsablauf")}>
+      <div
+        className={openVerlegungen ? `flex flex-col ${nestedClass}` : "hidden"}
+      >
+        <Link
+          href="/bisherige-verlegungen/verlegungsablauf"
+          className={linkClass("/bisherige-verlegungen/verlegungsablauf")}
+        >
           Verlegungsablauf
         </Link>
-        <Link href="/bisherige-verlegungen/chronik" className={linkClass("/bisherige-verlegungen/chronik")}>
+        <Link
+          href="/bisherige-verlegungen/chronik"
+          className={linkClass("/bisherige-verlegungen/chronik")}
+        >
           Chronik
         </Link>
       </div>
