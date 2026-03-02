@@ -21,6 +21,7 @@ export const SINGLE_BIOGRAPHY_QUERY =
   title,
   "slug": slug.current,
   adress,
+  date,
   images_stones,
   stone_texts[]{ text, _key }, 
   sources,

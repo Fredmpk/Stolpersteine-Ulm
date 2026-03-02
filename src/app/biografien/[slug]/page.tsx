@@ -64,7 +64,25 @@ export default async function Biographies({
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio?.title}
         </h2>
-        <p>{bio?.adress}</p>
+        <div className="mt-2 mb-6 text-sm sm:text-base text-[var(--color-muted)] flex flex-col gap-2">
+          {bio?.adress && <span>{bio.adress}</span>}
+          {bio?.date && (
+            <a
+              href={`/bisherige-verlegungen/chronik#${bio.date}`}
+              className="hover:underline underline-offset-4 text-blue-500 hover:text-blue-800 transition-colors"
+              aria-label={`Chronikeintrag zur Verlegung vom ${new Date(
+                bio.date,
+              ).toLocaleDateString("de-DE")}`}
+            >
+              zur Verlegung vom{" "}
+              {new Date(bio.date).toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}{" "}
+            </a>
+          )}
+        </div>
         <PortableText
           value={bio?.body || []}
           components={myPortableTextComponents}

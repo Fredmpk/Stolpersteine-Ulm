@@ -43,32 +43,18 @@ export default async function BiografienPage() {
           .map(({ name, slug, adress, id, date }) => (
             <li
               key={`${id}-${name}`}
-              className="flex justify-between items-center"
+              className="grid grid-cols-2 gap-x-8 items-start py-2"
             >
               <div>
-                <a href={`/biografien/${slug!}`} className="flex flex-row pb-2">
+                <a href={`/biografien/${slug!}`}>
                   <p className="text-blue-800 hover:underline hover:text-blue-900">
                     {name}
                   </p>
-                  <p className="ml-2 text-blue-800 hover:underline hover:text-blue-900">
-                    →
-                  </p>
                 </a>
               </div>
-              <div className="flex flex-col items-end gap-1 pb-2">
-                <p className="text-sm text-right">{adress}</p>
-                <a
-                  href={`/bisherige-verlegungen/chronik#${date}`}
-                  className="text-xs text-gray-500 hover:text-blue-800 hover:underline"
-                >
-                  {date
-                    ? new Date(date).toLocaleDateString("de-DE", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                    : ""}
-                </a>
+
+              <div>
+                <p className="text-sm">{adress}</p>
               </div>
             </li>
           ))}
