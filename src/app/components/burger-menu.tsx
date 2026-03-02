@@ -5,6 +5,8 @@ import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+
 export function BurgerMenu({
   backgrounds,
 }: {
@@ -70,10 +72,16 @@ export function BurgerMenu({
             <details>
               <summary className="text-black">Bisherige Verlegungen</summary>
               <div className={`flex flex-col gap-2 mt-2 ${nestedClass}`}>
-                <Link href="/bisherige-verlegungen/verlegungsablauf" onClick={() => setOpen(false)}>
+                <Link
+                  href="/bisherige-verlegungen/verlegungsablauf"
+                  onClick={() => setOpen(false)}
+                >
                   Verlegungsablauf
                 </Link>
-                <Link href="/bisherige-verlegungen/chronik" onClick={() => setOpen(false)}>
+                <Link
+                  href="/bisherige-verlegungen/chronik"
+                  onClick={() => setOpen(false)}
+                >
                   Chronik
                 </Link>
               </div>
@@ -119,6 +127,8 @@ export function BurgerMenu({
               DZOK
             </Link>
 
+            <div className="flex gap-4 px-4 py-2"></div>
+
             <details>
               <summary className="text-black ">
                 Kontakt, Impressum & Datenschutz
@@ -135,6 +145,28 @@ export function BurgerMenu({
                 </Link>
               </div>
             </details>
+            <div className="flex gap-4 justify-center">
+              <Link
+                href="https://www.facebook.com/stolpersteinefuerulm/"
+                target="_blank"
+                aria-label="Facebook"
+              >
+                <FaFacebook
+                  size={24}
+                  className="text-[#1877F2] hover:opacity-80 transition-opacity"
+                />
+              </Link>
+              <Link
+                href="https://www.instagram.com/stolpersteineulm/"
+                target="_blank"
+                aria-label="Instagram"
+              >
+                <FaInstagram
+                  size={24}
+                  className="text-[#E1306C] hover:opacity-80 transition-opacity"
+                />
+              </Link>
+            </div>
           </nav>
         </>
       )}

@@ -3,6 +3,7 @@ import { BACKGROUNDS_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export function Sidebar({
   backgrounds,
@@ -165,6 +166,28 @@ export function Sidebar({
         </Link>
         <Link href="/datenschutz" className={linkClass("/datenschutz")}>
           Datenschutz
+        </Link>
+      </div>
+      <div className="flex gap-4 mt-8 ml-4">
+        <Link
+          href="https://www.facebook.com/stolpersteinefuerulm/"
+          target="_blank"
+          aria-label="Facebook"
+        >
+          <FaFacebook
+            size={24}
+            className="text-[#1877F2] hover:opacity-80 transition-opacity"
+          />
+        </Link>
+        <Link
+          href="https://www.instagram.com/stolpersteineulm/"
+          target="_blank"
+          aria-label="Instagram"
+        >
+          <FaInstagram
+            size={24}
+            className="text-[#E1306C] hover:opacity-80 transition-opacity"
+          />
         </Link>
       </div>
     </aside>
