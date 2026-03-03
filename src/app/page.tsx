@@ -23,12 +23,12 @@ export default async function Home() {
       <p className="hidden lg:block">
         ______________________________________________________________
       </p>
-      <div className="flex flex-col text-[var(--color-brown-hero)] pl-6 pt-10 sm:p-10 lg:text-lg">
+      <div className="flex flex-col gap-2 text-[var(--color-brown-hero)] pl-6 pt-10 sm:p-10 lg:text-lg">
         <Link href={hero?.nextStone?.link || ""}>
           Nächste Verlegung: {hero?.nextStone?.title || ""}
         </Link>
         <Link href={hero?.nextMeeting?.link || ""}>
-          Datum des nächsten Treffen:{hero?.nextMeeting?.title || ""}
+          Datum des nächsten Treffen: {hero?.nextMeeting?.title || ""}
         </Link>
         <Link href={"/spenden"} className="hover:underline text-blue-900">
           Spenden
