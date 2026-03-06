@@ -1201,6 +1201,47 @@ export type LAYINGS_QUERYResult = Array<{
     } | null;
   }> | null;
 }>;
+// Variable: LEGAL_QUERY
+// Query: *[_type == "legal"][0]{    _id,   impressum,   privacy  }
+export type LEGAL_QUERYResult = {
+  _id: string;
+  impressum: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  privacy: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
@@ -1222,5 +1263,6 @@ declare module "@sanity/client" {
     "\n        *[_type == \"news\"]\n          | order(date desc)\n          [$start...$end] {\n            _id,\n            title,\n            date,\n            body,\n            \"flyerUrl\": flyer.asset->url\n          }\n      ": NEWS_QUERYResult;
     "*[_type == \"process\"][0]{\n      _id,\n      description,\n      images[]{\n        _key,\n        asset,\n        caption\n      },\n      media[]{\n  title,\n  url,\n  \"pdfUrl\": pdf.asset->url\n}\n    }": PROCESS_QUERYResult;
     "*[_type == \"layings\"]{\n      _id,\n      title,\n      date,\n      image{\n        asset->{\n          _id,\n          url\n        },\n        title,\n        alt\n      },\n      biographies[]->{\n        _id,\n        title,\n        slug,\n        adress,\n        \n      },\n      Links_videos[]{\n        title,\n        description,\n        url\n      },\n      pdf_speeches[]{\n        title,\n        description,\n        pdf{\n          asset->{\n            _id,\n            url\n          }\n        }\n      }\n    }": LAYINGS_QUERYResult;
+    "*[_type == \"legal\"][0]{\n    _id,\n   impressum,\n   privacy\n  }": LEGAL_QUERYResult;
   }
 }

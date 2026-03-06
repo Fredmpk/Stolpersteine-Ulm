@@ -196,3 +196,9 @@ export const LAYINGS_QUERY = defineQuery(`*[_type == "layings"]{
         }
       }
     }`);
+
+export const LEGAL_QUERY = defineQuery(`*[_type == "legal"][0]{
+    _id,
+   impressum,
+   privacy
+  }`);
