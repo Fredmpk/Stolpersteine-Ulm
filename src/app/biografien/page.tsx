@@ -43,7 +43,7 @@ export default async function BiografienPage() {
           .map(({ name, slug, adress, id, date }) => (
             <li
               key={`${id}-${name}`}
-              className="grid grid-cols-2 gap-x-8 items-start py-2"
+              className="grid grid-cols-[1.5fr_2fr] gap-x-8 items-start py-2"
             >
               <div>
                 <a href={`/biografien/${slug!}`}>
