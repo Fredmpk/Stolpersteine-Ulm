@@ -288,6 +288,16 @@ export type Layings = {
     alt?: string;
     _type: "image";
   };
+  flyer?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    media?: unknown;
+    _type: "file";
+  };
   Links_videos?: Array<{
     title?: string;
     description?: string;
@@ -1166,7 +1176,7 @@ export type PROCESS_QUERYResult = {
   }> | null;
 } | null;
 // Variable: LAYINGS_QUERY
-// Query: *[_type == "layings"]{      _id,      title,      date,      image{        asset->{          _id,          url        },        title,        alt      },      biographies[]->{        _id,        title,        slug,        adress,              },      Links_videos[]{        title,        description,        url      },      pdf_speeches[]{        title,        description,        pdf{          asset->{            _id,            url          }        }      }    }
+// Query: *[_type == "layings"]{      _id,      title,      date,      image{        asset->{          _id,          url        },        title,        alt      },      biographies[]->{        _id,        title,        slug,        adress,              },      "flyerUrl": flyer.asset->url,      Links_videos[]{        title,        description,        url      },      pdf_speeches[]{        title,        description,        pdf{          asset->{            _id,            url          }        }      }    }
 export type LAYINGS_QUERYResult = Array<{
   _id: string;
   title: string | null;
@@ -1185,6 +1195,7 @@ export type LAYINGS_QUERYResult = Array<{
     slug: Slug | null;
     adress: string | null;
   }> | null;
+  flyerUrl: string | null;
   Links_videos: Array<{
     title: string | null;
     description: string | null;
@@ -1262,7 +1273,7 @@ declare module "@sanity/client" {
     "\n      *[_type == \"dates\" && dateTime(date) > dateTime(now())] \n      | order(date asc){\n        _id,\n        title,\n        date,\n        location,\n        description,\n        \"flyerUrl\": flyer.asset->url,\n      }\n      ": FUTURE_EVENTS_QUERYResult;
     "\n        *[_type == \"news\"]\n          | order(date desc)\n          [$start...$end] {\n            _id,\n            title,\n            date,\n            body,\n            \"flyerUrl\": flyer.asset->url\n          }\n      ": NEWS_QUERYResult;
     "*[_type == \"process\"][0]{\n      _id,\n      description,\n      images[]{\n        _key,\n        asset,\n        caption\n      },\n      media[]{\n  title,\n  url,\n  \"pdfUrl\": pdf.asset->url\n}\n    }": PROCESS_QUERYResult;
-    "*[_type == \"layings\"]{\n      _id,\n      title,\n      date,\n      image{\n        asset->{\n          _id,\n          url\n        },\n        title,\n        alt\n      },\n      biographies[]->{\n        _id,\n        title,\n        slug,\n        adress,\n        \n      },\n      Links_videos[]{\n        title,\n        description,\n        url\n      },\n      pdf_speeches[]{\n        title,\n        description,\n        pdf{\n          asset->{\n            _id,\n            url\n          }\n        }\n      }\n    }": LAYINGS_QUERYResult;
+    "*[_type == \"layings\"]{\n      _id,\n      title,\n      date,\n      image{\n        asset->{\n          _id,\n          url\n        },\n        title,\n        alt\n      },\n      biographies[]->{\n        _id,\n        title,\n        slug,\n        adress,\n        \n      },\n      \"flyerUrl\": flyer.asset->url,\n      Links_videos[]{\n        title,\n        description,\n        url\n      },\n      pdf_speeches[]{\n        title,\n        description,\n        pdf{\n          asset->{\n            _id,\n            url\n          }\n        }\n      }\n    }": LAYINGS_QUERYResult;
     "*[_type == \"legal\"][0]{\n    _id,\n   impressum,\n   privacy\n  }": LEGAL_QUERYResult;
   }
 }

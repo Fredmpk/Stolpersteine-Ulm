@@ -180,6 +180,7 @@ export const LAYINGS_QUERY = defineQuery(`*[_type == "layings"]{
         adress,
         
       },
+      "flyerUrl": flyer.asset->url,
       Links_videos[]{
         title,
         description,

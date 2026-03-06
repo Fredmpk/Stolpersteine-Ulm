@@ -154,6 +154,19 @@ export default async function ChronikPage() {
                     </div>
                   </div>
                 )}
+
+              {laying.flyerUrl && (
+                <div className="mt-4">
+                  <Link
+                    href={laying.flyerUrl || ""}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline hover:text-blue-000 text-lg md:text-xl"
+                  >
+                    DOWNLOAD FLYER
+                  </Link>
+                </div>
+              )}
             </div>
           </article>
         ))}
