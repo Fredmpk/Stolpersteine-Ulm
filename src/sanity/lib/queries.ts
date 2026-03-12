@@ -59,10 +59,12 @@ export const HERO_QUERY = defineQuery(`*[_type == "hero"][0]{
     quoteAuthor,
     nextStone{
       title,
+      date,
       link
     },
     nextMeeting{
       title,
+      date,
       link
     } 
 }`);

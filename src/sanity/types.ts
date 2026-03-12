@@ -508,10 +508,12 @@ export type Hero = {
   quoteAuthor?: string;
   nextStone?: {
     title?: string;
+    date?: string;
     link?: string;
   };
   nextMeeting?: {
     title?: string;
+    date?: string;
     link?: string;
   };
 };
@@ -922,17 +924,19 @@ export type SINGLE_BACKGROUND_QUERYResult = {
   }> | null;
 } | null;
 // Variable: HERO_QUERY
-// Query: *[_type == "hero"][0]{      _id,    quote,    quoteAuthor,    nextStone{      title,      link    },    nextMeeting{      title,      link    } }
+// Query: *[_type == "hero"][0]{      _id,    quote,    quoteAuthor,    nextStone{      title,      date,      link    },    nextMeeting{      title,      date,      link    } }
 export type HERO_QUERYResult = {
   _id: string;
   quote: string | null;
   quoteAuthor: string | null;
   nextStone: {
     title: string | null;
+    date: string | null;
     link: string | null;
   } | null;
   nextMeeting: {
     title: string | null;
+    date: string | null;
     link: string | null;
   } | null;
 } | null;
@@ -1263,7 +1267,7 @@ declare module "@sanity/client" {
     "*[_type == \"biographies\" && defined(slug.current)]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  geopoint,\n  biotext_short,\n}": BIOGRAPHY_MAP_QUERYResult;
     "*[_type == \"backgrounds\" && defined(slug.current)] | order(_createdAt asc){\n    _id,\n    title,\n    \"slug\": slug.current,\n    text\n  }": BACKGROUNDS_QUERYResult;
     "*[_type == \"backgrounds\" && slug.current == $slug][0]{\n  _id,\n  title,\n  \"slug\": slug.current,\n  text,\n}": SINGLE_BACKGROUND_QUERYResult;
-    "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      link\n    },\n    nextMeeting{\n      title,\n      link\n    } \n}": HERO_QUERYResult;
+    "*[_type == \"hero\"][0]{  \n    _id,\n    quote,\n    quoteAuthor,\n    nextStone{\n      title,\n      date,\n      link\n    },\n    nextMeeting{\n      title,\n      date,\n      link\n    } \n}": HERO_QUERYResult;
     "*[_type == \"goals\"][0]{\n    _id,\n    textGoal\n  }": GOALS_QUERYResult;
     "*[_type == \"donations\"][0]{\n    _id,\n    title,\n    text,\n  }": DONATIONS_QUERYResult;
     "*[_type == \"cleangodparents\"][0]{\n    _id,\n    title,\n    description,\n    listcleaners, \n  }": CLEAN_GODPARENTS_QUERYResult;
