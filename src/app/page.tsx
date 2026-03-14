@@ -24,7 +24,7 @@ export default async function Home() {
     <main>
       <p className="pl-2 pr-6 py-8 text-base sm:text-lg lg:text-xl">
         {hero?.quote ||
-          "»Auschwitz war der Ziel- und Endpunkt, aber in den Wohnungen und Häusern begann das Unfassbare, das Grauen«"}
+          "»Auschwitz war der Ziel- und Endpunkt, aber in den Wohnungen und Häusern begann das Unfassbare, das Grauen« babubu"}
       </p>
 
       <p className="pl-6 text-base sm:text-lg lg:text-xl">
