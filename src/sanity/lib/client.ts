@@ -14,5 +14,5 @@ export const client = createClient({
 });
 export const previewClient = client.withConfig({
   perspective: "previewDrafts",
-  useCdn: true,
+  useCdn: false,
 });
