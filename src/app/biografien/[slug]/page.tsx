@@ -73,8 +73,10 @@ export default async function Biographies({
               className="group flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 hover:bg-zinc-100 hover:border-zinc-300 transition-all"
             >
               <span className="font-medium text-left">{bio.adress}</span>
-
-              <SquareArrowRight className="text-zinc-400 group-hover:text-blue-700 transition-colors" />
+              <div className="flex gap-2 text-zinc-400 group-hover:text-blue-700 transition-colors">
+                <p>Karte: </p>
+                <SquareArrowRight />
+              </div>
             </Link>
           )}
 
