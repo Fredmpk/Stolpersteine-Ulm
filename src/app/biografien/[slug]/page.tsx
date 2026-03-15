@@ -101,13 +101,17 @@ export default async function Biographies({
             </Link>
           )}
         </div>
-        <PortableText
-          value={bio?.body || []}
-          components={myPortableTextComponents}
-        />
+        <div className="">
+          <PortableText
+            value={bio?.body || []}
+            components={myPortableTextComponents}
+          />
+        </div>
         {bio?.sources && (
           <>
-            <h3 className="text-lg sm:text-xl font-semibold my-3">Quellen</h3>
+            <h3 className="text-lg sm:text-xl font-semibold my-3 clear-both">
+              Quellen
+            </h3>
             <PortableText
               value={bio?.sources || []}
               components={myPortableTextComponents}
