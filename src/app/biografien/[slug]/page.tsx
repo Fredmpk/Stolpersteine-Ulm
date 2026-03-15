@@ -7,6 +7,7 @@ import { SINGLE_BIOGRAPHY_QUERYResult } from "@/sanity/types";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { SquareArrowRight } from "lucide-react";
 
 export default async function Biographies({
   params,
@@ -65,33 +66,37 @@ export default async function Biographies({
         <h2 className="text-2xl sm:text-4xl text-[var(--color-heading)] my-6">
           {bio?.title}
         </h2>
-        <div className="mt-2 mb-12  text-sm sm:text-base text-zinc-500 flex flex-col gap-2">
+        <div className="mt-2 mb-12 text-sm sm:text-base text-zinc-700 flex flex-col gap-3 max-w-md">
           {bio?.adress && (
             <Link
               href={`/karte?id=${bio._id}`}
-              className="hover:underline underline-offset-4 font-semibold hover:text-blue-800 transition-colors flex gap-4"
+              className="group flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 hover:bg-zinc-100 hover:border-zinc-300 transition-all"
             >
-              {bio.adress}
-              <p>→</p>
+              <span className="font-medium text-left">{bio.adress}</span>
+
+              <SquareArrowRight className="text-zinc-400 group-hover:text-blue-700 transition-colors" />
             </Link>
           )}
 
           {bio?.date && (
-            <a
+            <Link
               href={`/bisherige-verlegungen/chronik#${bio.date}`}
-              className="hover:underline font-semibold underline-offset-4 hover:text-blue-800 transition-colors flex gap-3"
               aria-label={`Chronikeintrag zur Verlegung vom ${new Date(
                 bio.date,
               ).toLocaleDateString("de-DE")}`}
+              className="group flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 hover:bg-zinc-100 hover:border-zinc-300 transition-all"
             >
-              Verlegung vom{"  "}
-              {new Date(bio.date).toLocaleDateString("de-DE", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              })}
-              {"    "} <p>→</p>
-            </a>
+              <span className="font-medium">
+                Verlegung vom{" "}
+                {new Date(bio.date).toLocaleDateString("de-DE", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </span>
+
+              <SquareArrowRight className="text-zinc-400 group-hover:text-blue-700 transition-colors" />
+            </Link>
           )}
         </div>
         <PortableText
