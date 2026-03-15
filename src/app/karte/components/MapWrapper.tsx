@@ -1,12 +1,13 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
-import L from "leaflet";
-import { useEffect } from "react";
+import L, { Marker as LeafletMarker } from "leaflet";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
-type MapMarker = {
+// --- Marker Type ---
+export type MapMarker = {
   id: string | number;
   lat: number | undefined;
   lng: number | undefined;
@@ -20,12 +21,65 @@ type MapProps = {
   focusId?: string;
 };
 
-export default function MapWrapper({ markers }: MapProps) {
+// --- FocusMarker Component ---
+function FocusMarker({
+  markers,
+  focusId,
+}: {
+  markers: MapMarker[];
+  focusId?: string;
+}) {
+  const map = useMap();
+  const markerRefs = useRef<Record<string, LeafletMarker>>(Object.create(null));
+
   useEffect(() => {
+    if (!focusId) return;
+
+    const target = markers.find((m) => String(m.id) === focusId);
+    if (!target?.lat || !target?.lng) return;
+
+    // Zoom auf den Marker
+    map.setView([target.lat, target.lng], 16);
+
+    // Popup öffnen
+    const marker = markerRefs.current[focusId];
+    if (marker && marker.getPopup()) {
+      marker.openPopup();
+    }
+  }, [focusId, map, markers]);
+
+  return (
+    <>
+      {markers
+        .filter((m) => m.lat != null && m.lng != null)
+        .map((m) => (
+          <Marker
+            key={`focus-${m.id}`}
+            position={[m.lat!, m.lng!]}
+            ref={(ref) => {
+              if (ref) markerRefs.current[String(m.id)] = ref;
+            }}
+          >
+            {m.label && (
+              <Popup>
+                <h1>{m.label}</h1>
+                <p>{m.biotext_short}</p>
+                <Link href={`/biografien/${m.slug!}`}>gesamte Biographie</Link>
+              </Popup>
+            )}
+          </Marker>
+        ))}
+    </>
+  );
+}
+
+// --- Main MapWrapper Component ---
+export default function MapWrapper({ markers, focusId }: MapProps) {
+  useEffect(() => {
+    // Fix Leaflet Icons in Next.js
     const DefaultIcon = L.Icon.Default.prototype as L.Icon.Default & {
       _getIconUrl?: string;
     };
-
     delete DefaultIcon._getIconUrl;
 
     L.Icon.Default.mergeOptions({
@@ -46,10 +100,11 @@ export default function MapWrapper({ markers }: MapProps) {
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="© OpenStreetMap contributors"
+        attribution='Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
       />
 
-      <MarkerClusterGroup spiderfyOnMaxZoom={true} maxClusterRadius={10}>
+      {/* MarkerCluster mit Spiderfy */}
+      <MarkerClusterGroup spiderfyOnMaxZoom maxClusterRadius={20}>
         {markers
           .filter((m) => m.lat != null && m.lng != null)
           .map((m) => (
@@ -66,6 +121,9 @@ export default function MapWrapper({ markers }: MapProps) {
             </Marker>
           ))}
       </MarkerClusterGroup>
+
+      {/* Fokus auf Marker per URL / focusId */}
+      {focusId && <FocusMarker markers={markers} focusId={focusId} />}
     </MapContainer>
   );
 }
