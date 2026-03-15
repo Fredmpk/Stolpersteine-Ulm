@@ -14,7 +14,7 @@ export default async function News({
 }) {
   const params = await searchParams;
   const page = Number(
-    Array.isArray(params?.page) ? params.page[0] : (params?.page ?? 1)
+    Array.isArray(params?.page) ? params.page[0] : (params?.page ?? 1),
   );
 
   const perPage = 8;
@@ -83,8 +83,8 @@ export default async function News({
     <main className="m-4">
       <ul>
         {news.map((n) => (
-          <li key={n._id}>
-            <h2 className="text-2xl sm:text-3xl text-[var(--color-heading)] my-6">
+          <li key={n._id} className="mb-8 overflow-hidden">
+            <h2 className="text-2xl sm:text-3xl text-heading my-6">
               {n.title}
             </h2>
             <p className="text-sm sm:text-base font-italic my-6">

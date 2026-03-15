@@ -50,8 +50,8 @@ export default async function Biographies({
               <div
                 className="
           flex flex-col justify-center items-center 
-          text-center text-xs md:text-sm bg-[#AB8F5C] p-2 rounded-lg  w-28 h-28         
-          md:w-32 md:h-32   
+          text-center text-xs md:text-sm bg-[#AB8F5C] p-2 rounded-lg  w-34 h-34         
+          md:w-38 md:h-38   
           xl:w-40 xl:h-40  mx-auto
           [&_p]:m-0 [&_p]:leading-tight
         "
