@@ -21,6 +21,16 @@ type MapProps = {
   focusId?: string;
 };
 
+function RemoveLeafletPrefix() {
+  const map = useMap();
+
+  useEffect(() => {
+    map.attributionControl.setPrefix(false);
+  }, [map]);
+
+  return null;
+}
+
 // --- FocusMarker Component ---
 function FocusMarker({
   markers,
@@ -96,8 +106,10 @@ export default function MapWrapper({ markers, focusId }: MapProps) {
       center={[48.4011, 9.9876]}
       zoom={12}
       scrollWheelZoom
+      attributionControl={true}
       className="relative w-full h-96 lg:h-120"
     >
+      <RemoveLeafletPrefix />
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
