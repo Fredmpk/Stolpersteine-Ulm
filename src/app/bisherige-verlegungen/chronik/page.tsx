@@ -57,6 +57,7 @@ export default async function ChronikPage() {
             {/* Datum */}
             <div className="bg-[var(--color-heading)] text-white px-6 md:px-8 py-3 md:py-4">
               <h3 className="text-xl md:text-2xl font-bold">
+                {laying.title && `  ${laying.title} am `}
                 {new Date(laying?.date ?? "").toLocaleDateString("de-DE", {
                   day: "2-digit",
                   month: "2-digit",
