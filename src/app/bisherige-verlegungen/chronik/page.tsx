@@ -8,16 +8,16 @@ import { ExternalLink, PlayCircle } from "lucide-react";
 export default async function ChronikPage() {
   const { data: layings } = await sanityFetch({ query: LAYINGS_QUERY });
 
+  const sortedLayings = [...layings].sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   return (
     <main className="my-6 ml-10 mr-2">
       {/* Header */}
       <h2 className="text-2xl md:text-4xl text-[var(--color-heading)] my-6">
         Chronik der Verlegungen
       </h2>
-
-      <p className="text-sm md:text-base text-gray-600 mb-8">
-        Alle bisherigen Stolperstein-Verlegungen in Ulm im Überblick
-      </p>
 
       {/* Übersicht / Inhaltsverzeichnis */}
       <div className="mb-12 bg-gray-50 p-6 rounded-lg">
@@ -26,7 +26,7 @@ export default async function ChronikPage() {
         </h3>
 
         <ul className="space-y-2">
-          {layings.map((laying) => (
+          {sortedLayings.map((laying) => (
             <li key={laying._id}>
               <Link
                 href={`#verlegung-${laying._id}`}
@@ -46,7 +46,7 @@ export default async function ChronikPage() {
 
       {/* Verlegungen Liste */}
       <div className="space-y-12">
-        {layings.map((laying) => (
+        {sortedLayings.map((laying) => (
           <article
             key={laying._id}
             id={`verlegung-${laying._id}`}
