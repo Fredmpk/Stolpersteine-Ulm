@@ -40,7 +40,7 @@ export default async function VerlegungsablaufPage() {
       <div className="text-sm sm:text-base mb-8 sm:mb-12 max-w-4xl">
         <PortableText
           value={verlegungsablauf.description ?? []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         />
       </div>
       Bildergalerie
