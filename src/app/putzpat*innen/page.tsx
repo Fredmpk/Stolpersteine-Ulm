@@ -18,7 +18,7 @@ export default async function CleanGodparents() {
       <div className="text-sm md:text-base">
         <PortableText
           value={cleanGodparents?.description || []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         />
       </div>
       <div className="flex flex-col gap-2 text-blue-600 items-center text-lg lg:text-xl my-8">

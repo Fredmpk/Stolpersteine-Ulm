@@ -35,7 +35,7 @@ export default async function AlleEvents() {
                   <div className="hidden sm:block">
                     <PortableText
                       value={event.description || []}
-                      components={myPortableTextComponents}
+                      components={myPortableTextComponents()}
                     />
 
                     {event.flyerUrl && (
@@ -60,7 +60,7 @@ export default async function AlleEvents() {
               <div className="overflow-hidden line-clamp-4">
                 <PortableText
                   value={event.description || []}
-                  components={myPortableTextComponents}
+                  components={myPortableTextComponents()}
                 />
 
                 {event.flyerUrl && (

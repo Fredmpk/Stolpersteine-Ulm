@@ -24,7 +24,7 @@ export default async function BackgroundPage({
       </h1>
       <PortableText
         value={background?.text || []}
-        components={myPortableTextComponents}
+        components={myPortableTextComponents()}
       />
     </div>
   );

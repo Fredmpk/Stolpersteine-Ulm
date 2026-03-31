@@ -16,7 +16,7 @@ export default async function Goals() {
       <div className="text-sm md:text-base">
         <PortableText
           value={goals?.textGoal || []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         />
       </div>
     </main>

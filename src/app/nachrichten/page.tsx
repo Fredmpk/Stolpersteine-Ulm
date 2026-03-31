@@ -92,7 +92,7 @@ export default async function News({
             </p>
             <PortableText
               value={n.body || []}
-              components={myPortableTextComponents}
+              components={myPortableTextComponents()}
             />
             {n.flyerUrl && (
               <div>

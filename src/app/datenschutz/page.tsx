@@ -13,7 +13,7 @@ export default async function Datenschutz() {
       <div className="mb-4">
         <PortableText
           value={legal?.privacy || []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         ></PortableText>
       </div>
     </div>

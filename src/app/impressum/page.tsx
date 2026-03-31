@@ -16,7 +16,7 @@ export default async function Impressum() {
       <div className="mb-4">
         <PortableText
           value={legal?.impressum || []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         ></PortableText>
       </div>
     </div>

@@ -46,7 +46,7 @@ export default async function EventByYearPage({
                   <div className="hidden sm:block">
                     <PortableText
                       value={event.description || []}
-                      components={myPortableTextComponents}
+                      components={myPortableTextComponents()}
                     />
                   </div>
                   {event.flyerUrl && (
@@ -70,7 +70,7 @@ export default async function EventByYearPage({
               <div className="overflow-hidden line-clamp-4">
                 <PortableText
                   value={event.description || []}
-                  components={myPortableTextComponents}
+                  components={myPortableTextComponents()}
                 />
 
                 {event.flyerUrl && (

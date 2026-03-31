@@ -18,7 +18,7 @@ export default async function Donations() {
       <div className="text-sm md:text-base">
         <PortableText
           value={donations?.text || []}
-          components={myPortableTextComponents}
+          components={myPortableTextComponents()}
         />
       </div>
     </main>

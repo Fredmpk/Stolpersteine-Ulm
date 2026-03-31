@@ -36,7 +36,7 @@ export default async function EventByIDPage({
               <div className="hidden sm:block">
                 <PortableText
                   value={event?.description || []}
-                  components={myPortableTextComponents}
+                  components={myPortableTextComponents()}
                 />
                 {event?.flyerUrl && (
                   <div>
@@ -59,7 +59,7 @@ export default async function EventByIDPage({
           <div className="block sm:hidden">
             <PortableText
               value={event?.description || []}
-              components={myPortableTextComponents}
+              components={myPortableTextComponents()}
             />
             {event?.flyerUrl && (
               <div>
