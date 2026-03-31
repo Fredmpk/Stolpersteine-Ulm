@@ -9,6 +9,36 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { SquareArrowRight } from "lucide-react";
 
+type FootnoteItem = { _key: string; note: string };
+
+function extractFootnotes(
+  body: NonNullable<SINGLE_BIOGRAPHY_QUERYResult>["body"],
+): FootnoteItem[] {
+  if (!body) return [];
+  const footnotes: FootnoteItem[] = [];
+
+  for (const block of body) {
+    if (
+      block._type === "block" &&
+      "children" in block &&
+      Array.isArray(block.children)
+    ) {
+      for (const child of block.children) {
+        if (
+          child._type === "footnote" &&
+          "_key" in child &&
+          "note" in child &&
+          typeof child.note === "string"
+        ) {
+          footnotes.push({ _key: child._key, note: child.note });
+        }
+      }
+    }
+  }
+
+  return footnotes;
+}
+
 export default async function Biographies({
   params,
 }: {
@@ -24,15 +54,18 @@ export default async function Biographies({
   const bio = result.data as SINGLE_BIOGRAPHY_QUERYResult;
 
   if (!bio) {
-    return notFound(); // ✅ show 404 if slug not found
+    return notFound();
   }
+
+  const footnotes = extractFootnotes(bio.body);
+  const components = myPortableTextComponents(footnotes);
 
   return (
     <section className="my-12 mx-2">
       <div key={bio?._id}>
         <div className="flex flex-wrap gap-2 justify-center">
           {bio?.images_stones?.map((image) => {
-            if (!image?.asset) return null; // skip if no asset
+            if (!image?.asset) return null;
             return (
               <Image
                 key={image._key}
@@ -50,12 +83,12 @@ export default async function Biographies({
             <div key={stone_text._key}>
               <div
                 className="
-          flex flex-col justify-center items-center 
-          text-center text-xs md:text-sm bg-[#AB8F5C] p-2 rounded-lg  w-34 h-34         
-          md:w-38 md:h-38   
-          xl:w-40 xl:h-40  mx-auto
-          [&_p]:m-0 [&_p]:leading-tight
-        "
+                  flex flex-col justify-center items-center
+                  text-center text-xs md:text-sm bg-[#AB8F5C] p-2 rounded-lg w-34 h-34
+                  md:w-38 md:h-38
+                  xl:w-40 xl:h-40 mx-auto
+                  [&_p]:m-0 [&_p]:leading-tight
+                "
               >
                 <PortableText value={stone_text.text || []} />
               </div>
@@ -96,26 +129,31 @@ export default async function Biographies({
                   year: "numeric",
                 })}
               </span>
-
               <SquareArrowRight className="text-zinc-400 group-hover:text-blue-700 transition-colors" />
             </Link>
           )}
         </div>
-        <div className="">
-          <PortableText
-            value={bio?.body || []}
-            components={myPortableTextComponents}
-          />
+
+        <div>
+          <PortableText value={bio?.body || []} components={components} />
         </div>
+
+        {footnotes.length > 0 && (
+          <ol className="mt-8 text-sm text-gray-600 border-t pt-4 list-decimal list-inside">
+            {footnotes.map((fn) => (
+              <li key={fn._key} id={`footnote-${fn._key}`}>
+                {fn.note}
+              </li>
+            ))}
+          </ol>
+        )}
+
         {bio?.sources && (
           <>
-            <h3 className="text-lg sm:text-xl font-semibold my-3 clear-both">
+            <h3 className="text-lg sm:text-xl font-semibold pt-2 my-4 clear-both">
               Quellen
             </h3>
-            <PortableText
-              value={bio?.sources || []}
-              components={myPortableTextComponents}
-            />
+            <PortableText value={bio?.sources || []} components={components} />
           </>
         )}
         {bio?.authors && (

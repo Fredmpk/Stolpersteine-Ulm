@@ -13,6 +13,11 @@
  */
 
 // Source: schema.json
+export type Footnote = {
+  _type: "footnote";
+  note?: string;
+};
+
 export type Process = {
   _id: string;
   _type: "process";
@@ -210,7 +215,9 @@ export type Biographies = {
       text?: string;
       _type: "span";
       _key: string;
-    }>;
+    } | {
+      _key: string;
+    } & Footnote>;
     style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
     listItem?: "bullet" | "number";
     markDefs?: Array<{
@@ -636,7 +643,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Process | Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Footnote | Process | Backgrounds | Legal | Biographies | Layings | Cleangodparents | Donations | News | Dates | Goals | Hero | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../stolpersteine-next-san/src/sanity/lib/queries.ts
 // Variable: BIOGRAPHY_LIST_QUERY
@@ -703,6 +710,8 @@ export type BIOGRAPHY_LIST_QUERYResult = Array<{
   }> | null;
   body: Array<{
     children?: Array<{
+      _key: string;
+    } & Footnote | {
       marks?: Array<string>;
       text?: string;
       _type: "span";
@@ -800,6 +809,8 @@ export type SINGLE_BIOGRAPHY_QUERYResult = {
   }> | null;
   body: Array<{
     children?: Array<{
+      _key: string;
+    } & Footnote | {
       marks?: Array<string>;
       text?: string;
       _type: "span";

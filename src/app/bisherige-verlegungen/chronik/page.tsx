@@ -9,7 +9,9 @@ export default async function ChronikPage() {
   const { data: layings } = await sanityFetch({ query: LAYINGS_QUERY });
 
   const sortedLayings = [...layings].sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+    return (
+      new Date(b?.date || "").getTime() - new Date(a?.date || "").getTime()
+    );
   });
 
   return (
