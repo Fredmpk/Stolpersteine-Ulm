@@ -66,6 +66,19 @@ export default async function ChronikPage() {
               </h3>
             </div>
 
+            {laying.flyerUrl && (
+              <div className="mt-4 mx-auto bg-blue-link w-1/3 rounded-full">
+                <Link
+                  href={laying.flyerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex justify-center py-2 font-bold text-white hover:underline text-lg md:text-2xl"
+                >
+                  DOWNLOAD FLYER
+                </Link>
+              </div>
+            )}
+
             <div className="p-6 md:p-8">
               {/* Bild */}
               <div className="mb-8">
@@ -197,18 +210,6 @@ export default async function ChronikPage() {
               )}
 
               {/* Flyer */}
-              {laying.flyerUrl && (
-                <div className="mt-4">
-                  <Link
-                    href={laying.flyerUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 text-[var(--color-blue-link)] hover:underline text-lg md:text-xl"
-                  >
-                    DOWNLOAD FLYER
-                  </Link>
-                </div>
-              )}
             </div>
           </article>
         ))}
