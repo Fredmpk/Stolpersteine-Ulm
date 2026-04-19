@@ -103,13 +103,13 @@ export default async function ChronikPage() {
                   Verlegte Stolpersteine
                 </h4>
 
-                <div className="space-y-6">
+                <div className="space-y-1 md:space-y-3">
                   {laying.biographies?.map((bio) => (
                     <div
                       key={bio._id}
-                      className="border-l-4 border-gray-300 pl-6 py-2"
+                      className="border-l-4 border-gray-300 pl-6 py-1"
                     >
-                      <h5 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
+                      <h5 className="text-sm xl:text-base font-semibold text-gray-900 mb-1">
                         <Link
                           href={`/biografien/${bio.slug?.current}`}
                           className="hover:text-blue-600 transition-colors"
@@ -118,7 +118,7 @@ export default async function ChronikPage() {
                         </Link>
                       </h5>
 
-                      <p className="text-sm md:text-base text-gray-700">
+                      <p className="text-sm text-gray-700">
                         <span className="font-medium">Adresse:</span>{" "}
                         {bio.adress}
                       </p>
@@ -145,12 +145,12 @@ export default async function ChronikPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <h5 className="flex items-center gap-2 text-sm md:text-base font-semibold text-blue-700 underline">
+                          <h5 className="flex items-center gap-2 text-sm md:text-base font-semibold hover:text-blue-700 hover:underline">
                             {pdf.title}
-                            <ExternalLink size={16} />
+                            <ExternalLink size={16} className="text-blue-700" />
                           </h5>
 
-                          <p className="text-sm md:text-base text-gray-700">
+                          <p className="text-sm lg:text-base text-gray-700">
                             {pdf.description}
                           </p>
                         </Link>
@@ -186,9 +186,9 @@ export default async function ChronikPage() {
                             rel="noopener noreferrer"
                             className="flex-1"
                           >
-                            <h5 className="flex items-center gap-2 text-sm md:text-base font-semibold text-blue-700 underline">
-                              <PlayCircle size={16} />
+                            <h5 className="flex items-center gap-2 text-sm md:text-base font-semibold hover:text-blue-700 hover:underline">
                               {video.title}
+                              <PlayCircle size={16} className="text-blue-700" />
                             </h5>
 
                             <p className="text-sm md:text-base text-gray-700 mb-2">
