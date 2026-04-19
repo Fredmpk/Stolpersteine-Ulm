@@ -1,9 +1,18 @@
 // app/bisherige-verlegungen/chronik/page.tsx
 import { sanityFetch } from "@/sanity/lib/live";
 import { LAYINGS_QUERY } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
+import imageUrlBuilder from "@sanity/image-url";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, PlayCircle } from "lucide-react";
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+const builder = imageUrlBuilder(client);
+
+function getSanityImageUrl(image: SanityImageSource) {
+  return builder.image(image).width(900).auto("format").url();
+}
 
 export default async function ChronikPage() {
   const { data: layings } = await sanityFetch({ query: LAYINGS_QUERY });
@@ -65,6 +74,7 @@ export default async function ChronikPage() {
                 })}
               </h3>
             </div>
+
             {laying.flyerUrl && (
               <div className="mt-4 flex justify-center">
                 <div className="bg-blue-link rounded-full">
@@ -82,20 +92,20 @@ export default async function ChronikPage() {
 
             <div className="p-6 md:p-8">
               {/* Bild */}
-              <div className="mb-8">
-                {laying.image?.asset?.url && (
-                  <div className="w-full max-w-full rounded-lg overflow-hidden bg-gray-200">
+              {laying.image?.asset && (
+                <div className="mb-8 flex justify-center">
+                  <div className="max-w-3xl max-h-[400px] flex items-center justify-center">
                     <Image
-                      src={laying.image?.asset?.url || ""}
+                      src={getSanityImageUrl(laying.image)}
                       alt={laying.image?.alt || "Verlegung"}
-                      width={1024}
-                      height={768}
-                      className="w-full h-auto object-contain"
-                      sizes="(max-width: 1024px) 100vw, 1024px"
+                      width={900}
+                      height={600}
+                      className="h-full w-auto max-h-[400px] object-contain rounded-lg overflow-hidden"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 900px"
                     />
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Verlegte Personen */}
               <div className="mb-8">
@@ -210,7 +220,7 @@ export default async function ChronikPage() {
                 </div>
               )}
 
-              <div className="flex justify-center text-md md:text-lg hover:underline  ">
+              <div className="flex justify-center text-md md:text-lg hover:underline">
                 <a
                   href={"#"}
                   className="bg-zinc-300 hover:bg-blue-300 rounded-lg p-2"
@@ -218,8 +228,6 @@ export default async function ChronikPage() {
                   Zurück nach oben
                 </a>
               </div>
-
-              {/* Flyer */}
             </div>
           </article>
         ))}

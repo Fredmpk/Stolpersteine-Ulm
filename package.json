@@ -11,7 +11,7 @@
   "dependencies": {
     "@formspark/use-formspark": "^0.1.42",
     "@portabletext/react": "^4.0.3",
-    "@sanity/image-url": "1",
+    "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "4",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
