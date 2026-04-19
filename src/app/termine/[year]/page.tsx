@@ -5,6 +5,7 @@ import Link from "next/link";
 import DateSquare from "../components/DateSquare";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
+import { formatTime } from "../components/formatDateNTime";
 
 export default async function EventByYearPage({
   params,
@@ -39,7 +40,7 @@ export default async function EventByYearPage({
                   {event.title}
                 </Link>
                 <div className="flex gap-3">
-                  <p className="font-bold">{event.date?.slice(11, 16)}</p>
+                  <p className="font-bold">{formatTime(event.date || "")}</p>
                   <p>{event.location}</p>
                 </div>
                 <div className="overflow-hidden line-clamp-4">

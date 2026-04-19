@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 import DateSquare from "../../components/DateSquare";
+import { formatTime } from "../../components/formatDateNTime";
 
 export default async function EventByIDPage({
   params,
@@ -30,7 +31,7 @@ export default async function EventByIDPage({
             <div className="flex flex-col pt-1">
               <div className="text-xl lg:text-2xl">{event?.title}</div>
               <div className="flex gap-3">
-                <p className="font-bold">{event?.date?.slice(11, 16)}</p>
+                <p className="font-bold">{formatTime(event?.date || "")}</p>
                 <p>{event?.location}</p>
               </div>
               <div className="hidden sm:block">
