@@ -49,8 +49,12 @@ export default async function Home() {
           Nächstes Treffen: {hero?.nextMeeting?.title || ""} am{" "}
           {formatDate(hero?.nextMeeting?.date)}
         </Link>
-
-        <Link href="/spenden" className="hover:underline text-blue-900">
+      </div>
+      <div className="pt-4 flex justify-center">
+        <Link
+          href="/spenden"
+          className="inline-block px-4 py-1.5 text-base sm:px-6 sm:py-2 sm:text-xl rounded-full border border-zinc-400 text-zinc-700 bg-zinc-100 hover:bg-zinc-200 hover:border-zinc-500 hover:text-zinc-900 transition-all duration-200 font-medium tracking-wide shadow-sm"
+        >
           Spenden
         </Link>
       </div>
