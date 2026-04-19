@@ -210,6 +210,15 @@ export default async function ChronikPage() {
                 </div>
               )}
 
+              <div className="flex justify-center text-md md:text-lg hover:underline  ">
+                <a
+                  href={"#"}
+                  className="bg-zinc-300 hover:bg-blue-300 rounded-lg p-2"
+                >
+                  Zurück nach oben
+                </a>
+              </div>
+
               {/* Flyer */}
             </div>
           </article>
