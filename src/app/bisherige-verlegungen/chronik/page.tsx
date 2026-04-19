@@ -65,17 +65,18 @@ export default async function ChronikPage() {
                 })}
               </h3>
             </div>
-
             {laying.flyerUrl && (
-              <div className="mt-4 mx-auto bg-blue-link w-1/3 rounded-full">
-                <Link
-                  href={laying.flyerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex justify-center py-2 font-bold text-white hover:underline text-lg md:text-2xl"
-                >
-                  DOWNLOAD FLYER
-                </Link>
+              <div className="mt-4 flex justify-center">
+                <div className="bg-blue-link rounded-full">
+                  <Link
+                    href={laying.flyerUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex justify-center px-6 py-2 font-bold text-white hover:underline text-lg md:text-2xl whitespace-nowrap"
+                  >
+                    DOWNLOAD FLYER
+                  </Link>
+                </div>
               </div>
             )}
 
