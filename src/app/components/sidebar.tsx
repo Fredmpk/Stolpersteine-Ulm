@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { ChevronDown } from "lucide-react";
 
 export function Sidebar({
   backgrounds,
@@ -32,13 +33,15 @@ export function Sidebar({
         : "text-[var(--color-sidebar-text)]"
     }`;
 
-  const nestedClass = "pl-6"; // indentation for nested links
+  const nestedClass = "pl-6";
 
-  // Hide sidebar on /karte page only on screens smaller than xl
+  const buttonClass =
+    "flex items-center justify-between px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer";
+
   const sidebarClass =
     pathname === "/karte"
       ? "min-w-1/3 md:min-w-1/4 flex-col pt-4 hidden xl:flex mr-4"
-      : "w-1/3 md:w-1/4 lg:w-1/5 xl:1/6  flex-col pt-4 hidden sm:flex mr-4";
+      : "w-1/3 md:w-1/4 lg:w-1/5 xl:1/6 flex-col pt-4 hidden sm:flex mr-4";
 
   return (
     <aside className={sidebarClass}>
@@ -49,11 +52,12 @@ export function Sidebar({
         Ziele der Initiative
       </Link>
 
-      <button
-        onClick={() => setOpenDates(!openDates)}
-        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
-      >
+      <button onClick={() => setOpenDates(!openDates)} className={buttonClass}>
         Termine & Nachrichten
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${openDates ? "rotate-180" : ""}`}
+        />
       </button>
       <div className={openDates ? `flex flex-col ${nestedClass}` : "hidden"}>
         <Link href="/termine" className={linkClass("/termine")}>
@@ -66,9 +70,13 @@ export function Sidebar({
 
       <button
         onClick={() => setOpenDonations(!openDonations)}
-        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
+        className={buttonClass}
       >
         Spenden & Putzpat*innen
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${openDonations ? "rotate-180" : ""}`}
+        />
       </button>
       <div
         className={openDonations ? `flex flex-col ${nestedClass}` : "hidden"}
@@ -83,9 +91,13 @@ export function Sidebar({
 
       <button
         onClick={() => setOpenVerlegungen(!openVerlegungen)}
-        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
+        className={buttonClass}
       >
         Bisherige Verlegungen
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${openVerlegungen ? "rotate-180" : ""}`}
+        />
       </button>
       <div
         className={openVerlegungen ? `flex flex-col ${nestedClass}` : "hidden"}
@@ -106,9 +118,13 @@ export function Sidebar({
 
       <button
         onClick={() => setOpenBiographies(!openBiographies)}
-        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
+        className={buttonClass}
       >
         Biografien & Hintergründe
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${openBiographies ? "rotate-180" : ""}`}
+        />
       </button>
       <div
         className={openBiographies ? `flex flex-col ${nestedClass}` : "hidden"}
@@ -119,9 +135,13 @@ export function Sidebar({
 
         <button
           onClick={() => setOpenBackgrounds(!openBackgrounds)}
-          className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
+          className={buttonClass}
         >
           Hintergründe
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${openBackgrounds ? "rotate-180" : ""}`}
+          />
         </button>
         <div
           className={
@@ -139,6 +159,7 @@ export function Sidebar({
           ))}
         </div>
       </div>
+
       <Link href="/karte" className={linkClass("/karte")}>
         Karte
       </Link>
@@ -151,11 +172,12 @@ export function Sidebar({
         DZOK
       </Link>
 
-      <button
-        onClick={() => setOpenLegal(!openLegal)}
-        className="block px-4 py-2 text-left w-full rounded text-[var(--color-sidebar-text)] hover:cursor-pointer"
-      >
+      <button onClick={() => setOpenLegal(!openLegal)} className={buttonClass}>
         Kontakt, Impressum & Datenschutz
+        <ChevronDown
+          size={16}
+          className={`transition-transform duration-200 ${openLegal ? "rotate-180" : ""}`}
+        />
       </button>
       <div className={openLegal ? `flex flex-col ${nestedClass}` : "hidden"}>
         <Link href="/kontakt" className={linkClass("/kontakt")}>
@@ -168,6 +190,7 @@ export function Sidebar({
           Datenschutz
         </Link>
       </div>
+
       <div className="flex gap-4 mt-8 ml-4">
         <Link
           href="https://www.facebook.com/stolpersteinefuerulm/"
