@@ -55,18 +55,20 @@ export default async function VerlegungsablaufPage() {
       {/* Presseberichte (media[]) */}
       {mediaItems.length > 0 && (
         <section className="mb-8 sm:mb-12 max-w-4xl">
-          <h3 className="text-xl sm:text-2xl md:text-3xl text-[var(--color-heading)] mb-4 sm:mb-6">
-            Presseberichte
-          </h3>
+          {mediaItems.length > 1 && (
+            <h3 className="text-xl sm:text-2xl md:text-3xl text-[var(--color-heading)] mb-4 sm:mb-6">
+              Presseberichte
+            </h3>
+          )}
 
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-4 sm:space-y-6 flex justify-center">
             {mediaItems.map((item, index) => {
               const linkHref = item.pdfUrl ?? item.url ?? "#";
 
               return (
                 <article
                   key={item.title ?? index}
-                  className="border-l-2 sm:border-l-4 border-blue-500 pl-3 sm:pl-6 py-2 hover:bg-gray-50 transition-colors rounded-r"
+                  className=" pl-3 sm:pl-6 py-2 hover:bg-gray-50 transition-colors rounded-r"
                 >
                   <h4 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">
                     <a
