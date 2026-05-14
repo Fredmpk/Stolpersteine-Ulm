@@ -17,16 +17,25 @@ export const BIOGRAPHY_LIST_QUERY =
 
 export const SINGLE_BIOGRAPHY_QUERY =
   defineQuery(`*[_type == "biographies" && slug.current == $slug][0]{
-  _id,
-  title,
-  "slug": slug.current,
-  adress,
-  date,
-  images_stones,
-  stone_texts[]{ text, _key }, 
-  sources,
-  body,
-  authors,
+    _id,
+    title,
+    "slug": slug.current,
+    adress,
+    date,
+    images_stones,
+    stone_texts[]{ text, _key }, 
+    sources,
+    body,
+    authors,
+
+    "laying": *[
+      _type == "layings" &&
+      references(^._id)
+    ][0]{
+      _id,
+      title,
+      date
+    }
 }`);
 
 export const BIOGRAPHY_MAP_QUERY =

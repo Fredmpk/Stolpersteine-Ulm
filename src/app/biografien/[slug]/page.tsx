@@ -113,22 +113,22 @@ export default async function Biographies({
             </Link>
           )}
 
-          {bio?.date && (
+          {bio?.laying?._id && (
             <Link
-              href={`/bisherige-verlegungen/chronik#${bio.date}`}
-              aria-label={`Chronikeintrag zur Verlegung vom ${new Date(
-                bio.date,
-              ).toLocaleDateString("de-DE")}`}
+              href={`/bisherige-verlegungen/chronik#verlegung-${bio.laying._id}`}
+              aria-label={`Chronikeintrag zur Verlegung`}
               className="group flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 hover:bg-zinc-100 hover:border-zinc-300 transition-all"
             >
               <span className="font-medium">
                 Verlegung vom{" "}
-                {new Date(bio.date).toLocaleDateString("de-DE", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })}
+                {bio.laying.date &&
+                  new Date(bio.laying.date).toLocaleDateString("de-DE", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
               </span>
+
               <SquareArrowRight className="text-zinc-400 group-hover:text-blue-700 transition-colors" />
             </Link>
           )}
