@@ -10,9 +10,7 @@ export default async function Impressum() {
   };
   return (
     <div className="container mx-auto pt-4 px-4">
-      <h2 className="text-2xl font-bold mb-4">
-        Name und Kontaktdaten des Verantwortlichen
-      </h2>
+      <h2 className="text-2xl font-bold mb-4">Impressum</h2>
       <div className="mb-4">
         <PortableText
           value={legal?.impressum || []}
