@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { SquareArrowRight } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 type FootnoteItem = { _key: string; note: string };
 
 function extractFootnotes(

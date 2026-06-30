@@ -4,6 +4,8 @@ import { sanityProductionFetch } from "@/sanity/lib/client";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 
+export const dynamic = "force-dynamic";
+
 export default async function BackgroundPage({
   params,
 }: {
