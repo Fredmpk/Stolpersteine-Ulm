@@ -1,4 +1,4 @@
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "../components/PortableTextComponents";
 import { NEWS_QUERYResult } from "@/sanity/types";
@@ -16,27 +16,22 @@ export default async function News({
   const page = Number(
     Array.isArray(params?.page) ? params.page[0] : (params?.page ?? 1),
   );
-
   const perPage = 8;
   const start = (page - 1) * perPage;
   const end = start + perPage;
 
   // Fetch paginated news
-  const { data } = await sanityFetch({
-    query: NEWS_QUERY,
-    params: {
-      start,
-      end,
-    },
-  });
+  const news = await sanityProductionFetch<NEWS_QUERYResult>(
+    NEWS_QUERY,
+    { start, end },
+    ["news"],
+  );
 
   // Fetch total count for pagination
-  const { data: countData } = await sanityFetch({
-    query: NEWS_COUNT_QUERY,
-  });
+  const totalCount = await sanityProductionFetch<number>(NEWS_COUNT_QUERY, {}, [
+    "news",
+  ]);
 
-  const news = data as NEWS_QUERYResult;
-  const totalCount = countData as number;
   const totalPages = Math.ceil(totalCount / perPage);
 
   // Generate page numbers to display

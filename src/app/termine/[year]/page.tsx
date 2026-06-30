@@ -1,4 +1,4 @@
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { ALL_EVENTS_QUERY } from "@/sanity/lib/queries";
 import { ALL_EVENTS_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
@@ -14,11 +14,11 @@ export default async function EventByYearPage({
 }) {
   const { year } = await params;
 
-  const { data: allEvents } = (await sanityFetch({
-    query: ALL_EVENTS_QUERY,
-  })) as {
-    data: ALL_EVENTS_QUERYResult;
-  };
+  const allEvents = await sanityProductionFetch<ALL_EVENTS_QUERYResult>(
+    ALL_EVENTS_QUERY,
+    {},
+    ["dates"],
+  );
 
   const filteredEvents = allEvents.filter((event) => {
     if (!event.date) return false;

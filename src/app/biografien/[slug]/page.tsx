@@ -1,7 +1,7 @@
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { SINGLE_BIOGRAPHY_QUERY } from "@/sanity/lib/queries";
 import { SINGLE_BIOGRAPHY_QUERYResult } from "@/sanity/types";
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
@@ -16,7 +16,6 @@ function extractFootnotes(
 ): FootnoteItem[] {
   if (!body) return [];
   const footnotes: FootnoteItem[] = [];
-
   for (const block of body) {
     if (
       block._type === "block" &&
@@ -35,7 +34,6 @@ function extractFootnotes(
       }
     }
   }
-
   return footnotes;
 }
 
@@ -46,12 +44,11 @@ export default async function Biographies({
 }) {
   const { slug } = await params;
 
-  const result = await sanityFetch({
-    query: SINGLE_BIOGRAPHY_QUERY,
-    params: { slug },
-  });
-
-  const bio = result.data as SINGLE_BIOGRAPHY_QUERYResult;
+  const bio = await sanityProductionFetch<SINGLE_BIOGRAPHY_QUERYResult>(
+    SINGLE_BIOGRAPHY_QUERY,
+    { slug },
+    ["biographies"],
+  );
 
   if (!bio) {
     return notFound();

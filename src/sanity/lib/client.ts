@@ -1,6 +1,7 @@
 import { createClient } from "next-sanity";
 
 import { apiVersion, dataset, projectId } from "../env";
+import type { QueryParams } from "next-sanity";
 
 export const client = createClient({
   projectId,
@@ -16,3 +17,11 @@ export const previewClient = client.withConfig({
   perspective: "previewDrafts",
   useCdn: false,
 });
+
+export async function sanityProductionFetch<QueryResult>(
+  query: string,
+  params: QueryParams = {},
+  tags: string[],
+): Promise<QueryResult> {
+  return client.fetch<QueryResult>(query, params, { next: { tags } });
+}

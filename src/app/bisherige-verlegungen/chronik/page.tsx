@@ -1,7 +1,7 @@
 // app/bisherige-verlegungen/chronik/page.tsx
-import { sanityFetch } from "@/sanity/lib/live";
 import { LAYINGS_QUERY } from "@/sanity/lib/queries";
-import { client } from "@/sanity/lib/client";
+import { client, sanityProductionFetch } from "@/sanity/lib/client";
+import { LAYINGS_QUERYResult } from "@/sanity/types";
 import imageUrlBuilder from "@sanity/image-url";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,11 @@ function getSanityImageUrl(image: SanityImageSource) {
 }
 
 export default async function ChronikPage() {
-  const { data: layings } = await sanityFetch({ query: LAYINGS_QUERY });
+  const layings = await sanityProductionFetch<LAYINGS_QUERYResult>(
+    LAYINGS_QUERY,
+    {},
+    ["layings"],
+  );
 
   const sortedLayings = [...layings].sort((a, b) => {
     return (

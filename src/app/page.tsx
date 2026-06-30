@@ -2,6 +2,7 @@ import { HERO_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { HERO_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 
 const formatDate = (date?: string | null) => {
   if (!date) return "";
@@ -16,9 +17,9 @@ const formatDate = (date?: string | null) => {
 };
 
 export default async function Home() {
-  const { data: hero } = (await sanityFetch({ query: HERO_QUERY })) as {
-    data: HERO_QUERYResult;
-  };
+  const hero = await sanityProductionFetch<HERO_QUERYResult>(HERO_QUERY, {}, [
+    "hero",
+  ]);
 
   return (
     <main>

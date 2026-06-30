@@ -1,17 +1,17 @@
 // app/bisherige-verlegungen/verlegungsablauf/page.tsx
 import { myPortableTextComponents } from "@/app/components/PortableTextComponents";
 import { PortableText } from "next-sanity";
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { PROCESS_QUERY } from "@/sanity/lib/queries";
 import { PROCESS_QUERYResult } from "@/sanity/types";
 import ImageGallery from "./ImageGallery";
 
 export default async function VerlegungsablaufPage() {
-  const { data: verlegungsablauf } = (await sanityFetch({
-    query: PROCESS_QUERY,
-  })) as {
-    data: PROCESS_QUERYResult;
-  };
+  const verlegungsablauf = await sanityProductionFetch<PROCESS_QUERYResult>(
+    PROCESS_QUERY,
+    {},
+    ["process"],
+  );
 
   if (!verlegungsablauf) {
     return (

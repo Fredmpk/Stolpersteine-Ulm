@@ -1,15 +1,16 @@
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { CLEAN_GODPARENTS_QUERY } from "@/sanity/lib/queries";
 import { CLEAN_GODPARENTS_QUERYResult } from "@/sanity/types";
 import { PortableText } from "next-sanity";
 import { myPortableTextComponents } from "../components/PortableTextComponents";
 
 export default async function CleanGodparents() {
-  const { data: cleanGodparents } = (await sanityFetch({
-    query: CLEAN_GODPARENTS_QUERY,
-  })) as {
-    data: CLEAN_GODPARENTS_QUERYResult;
-  };
+  const cleanGodparents =
+    await sanityProductionFetch<CLEAN_GODPARENTS_QUERYResult>(
+      CLEAN_GODPARENTS_QUERY,
+      {},
+      ["cleangodparents"],
+    );
   return (
     <main className="my-6 ml-10 mr-2">
       <h2 className="text-2xl md:text-4xl text-[var(--color-heading)] my-6">

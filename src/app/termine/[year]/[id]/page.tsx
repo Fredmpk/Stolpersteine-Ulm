@@ -1,4 +1,4 @@
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { EVENT_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { EVENT_BY_ID_QUERYResult } from "@/sanity/types";
 import Link from "next/link";
@@ -13,15 +13,13 @@ export default async function EventByIDPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  console.log("Fetching event with _id:", id);
 
-  const { data: event } = (await sanityFetch({
-    query: EVENT_BY_ID_QUERY,
-    params: { id },
-  })) as {
-    data: EVENT_BY_ID_QUERYResult;
-  };
-  console.log("event", event);
+  const event = await sanityProductionFetch<EVENT_BY_ID_QUERYResult>(
+    EVENT_BY_ID_QUERY,
+    { id },
+    ["dates"],
+  );
+
   return (
     <main className="ml-4 mb-8">
       <ul>

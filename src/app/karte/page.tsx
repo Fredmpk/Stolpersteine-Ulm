@@ -1,5 +1,5 @@
 import MapWrapper from "./components/MapWrapper";
-import { sanityFetch } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
 import { BIOGRAPHY_MAP_QUERY } from "@/sanity/lib/queries";
 import { BIOGRAPHY_MAP_QUERYResult } from "@/sanity/types";
 
@@ -9,11 +9,12 @@ export default async function KartePage({
   searchParams: Promise<{ id?: string }>;
 }) {
   const { id } = await searchParams;
-  const { data } = (await sanityFetch({
-    query: BIOGRAPHY_MAP_QUERY,
-  })) as {
-    data: BIOGRAPHY_MAP_QUERYResult;
-  };
+
+  const data = await sanityProductionFetch<BIOGRAPHY_MAP_QUERYResult>(
+    BIOGRAPHY_MAP_QUERY,
+    {},
+    ["biographies"],
+  );
 
   const markers = data.map((b) => ({
     id: b._id,
@@ -23,7 +24,6 @@ export default async function KartePage({
     biotext_short: b.biotext_short,
     slug: b.slug,
   }));
-
   return (
     <main className="w-full h-full">
       <h2 className="text-2xl md:text-4xl text-heading my-6">
