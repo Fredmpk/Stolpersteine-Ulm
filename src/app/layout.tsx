@@ -5,7 +5,8 @@ import { Fira_Sans } from "next/font/google";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { draftMode } from "next/headers";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { sanityProductionFetch } from "@/sanity/lib/client";
+import { SanityLive } from "@/sanity/lib/live";
 import { Sidebar } from "./components/sidebar";
 import { Header } from "./components/header";
 import Image from "next/image";
@@ -19,10 +20,10 @@ export const metadata: Metadata = {
 };
 
 const firaSans = Fira_Sans({
-  subsets: ["latin"], // add more if needed
-  weight: ["300", "400", "500", "600", "700"], // practical range
-  style: ["normal", "italic"], // include italics if you use them
-  display: "swap", // industry best practice
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export default async function RootLayout({
@@ -30,12 +31,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: backgrounds } = (await sanityFetch({
-    query: BACKGROUNDS_QUERY,
-  })) as {
-    data: BACKGROUNDS_QUERYResult;
-  };
-
+  const backgrounds = await sanityProductionFetch<BACKGROUNDS_QUERYResult>(
+    BACKGROUNDS_QUERY,
+    {},
+    ["backgrounds"],
+  );
   {
     return (
       <html lang="en">
